@@ -2,10 +2,10 @@
 <odoo>
 
     <!-- ✅ Tree View -->
-    <record id="view_hr_attendance_correction_tree" model="ir.ui.view">
+    <!-- <record id="view_hr_attendance_correction_tree" model="ir.ui.view">
         <field name="name">hr.attendance.correction.tree</field>
         <field name="model">hr.attendance.correction</field>
-        <field name="type">tree</field>  <!-- ✅ Ensure this is correctly set -->
+        <field name="type">tree</field>  
         <field name="arch" type="xml">
             <tree string="Attendance Correction Requests">
                 <field name="employee_id"/>
@@ -19,7 +19,7 @@
                 <field name="create_date" string="Request Date"/>
             </tree>
         </field>
-    </record>
+    </record> -->
 
     <!-- ✅ Form View -->
     <record id="view_hr_attendance_correction_form" model="ir.ui.view">
