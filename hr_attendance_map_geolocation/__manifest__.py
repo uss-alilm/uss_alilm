@@ -5,7 +5,7 @@
     "name": "Hr Attendance maps Geolocation",
     "summary": """
         With this module, the user's geolocation is tracked at the check-in/check-out stage, and manger can even set the attendance range for the employee.""",
-    "version": "18.1.0.0.0",
+    "version": "18.0.0.0.0",
     'license': 'OPL-1',
     "author": "Ahmed Mnasri",
     "website": "https://polyline.xyz",
