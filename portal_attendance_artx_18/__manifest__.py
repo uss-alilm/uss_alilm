@@ -1,5 +1,5 @@
 {
-    'name': 'Employee Portal Attendance Management',
+    'name': 'Employee Portal Attendance Management . ',
     'version': '18.0.0.0.0',
     'category': 'Human Resources',
     'summary': 'Allows HR managers or administrators to automatically create portal users for employees and manage attendance via the portal.',
