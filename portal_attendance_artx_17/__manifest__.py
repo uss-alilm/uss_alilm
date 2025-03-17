@@ -1,6 +1,6 @@
 {
     'name': 'Employee Portal Attendance Management',
-    'version': '1.0',
+    'version': '18.0.0.0.0',
     'category': 'Human Resources',
     'summary': 'Allows HR managers or administrators to automatically create portal users for employees and manage attendance via the portal.',
     'description': """This module extends the HR and Portal functionalities in Odoo by allowing HR managers and super administrators to easily create portal users for employees.

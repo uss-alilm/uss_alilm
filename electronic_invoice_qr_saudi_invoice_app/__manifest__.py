@@ -2,7 +2,7 @@
 {
     'name': 'Electronic KSA Invoice - Invoice, Credit Note, Bill, Refund KSA Report',
     "author": "Edge Technologies",
-    'version': '17.0.1.0',
+    'version': '18.0.1.1',
     'description': """ 
         QR Code Invoice
     """,

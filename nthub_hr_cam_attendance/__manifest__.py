@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Attendance Cam',
-    'version': '15.0.0',
+    'version': '18.0.0.0.0',
     'summary': 'Portal Face Recognition Attendance',
     'description': """
         Allow portal users to use video cam to register attendance by matching there face 

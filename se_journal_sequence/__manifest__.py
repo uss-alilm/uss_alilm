@@ -2,7 +2,7 @@
 
 {
     'name': 'Journal Sequence',
-    'version': '1.1',
+    'version': '18.0.0.0.0',
     'category': 'Accounting',
     'summary': 'Journal Sequence For Invoice, bill, credit, and debit notes etc',
     'description': 'This plugin makes it simple to customise and modify the invoice, bill, credit, and debit notes sequence number from the journals.',

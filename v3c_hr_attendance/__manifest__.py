@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Attendance',
-    'version': '16.0.1',
+    'version': '18.0.0.0.1',
     'category': 'Human Resources/Employees',
     'sequence': 1,
     'summary': """

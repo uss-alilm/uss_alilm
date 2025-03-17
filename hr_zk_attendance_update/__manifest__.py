@@ -21,7 +21,7 @@
 ################################################################################
 {
     'name': 'Biometric Device Integration',
-    'version': '17.0.1.2.2',
+    'version': '18.0.1.2.2',
     'category': 'Human Resources',
     'summary': "Integrating Biometric Device (Model: ZKteco uFace 202) With HR"
                "Attendance (Face + Thumb)",

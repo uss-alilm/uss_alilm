@@ -12,7 +12,7 @@
     'author': "Mali, MuhlhelITS",
     'website': "http://muhlhel.com",
     'category': 'Localization',
-    'version': '1.10',
+    'version': '18.0.0.0.0',
     'depends': ['web'],
     'qweb': [],
 

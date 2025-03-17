@@ -16,7 +16,7 @@
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Human Resources/Attendance',
-    'version': '0.1',
+    'version': '18.0.0.0.0',
     'module_type': 'official',
     'license': 'AGPL-3',
     'images': ['static/description/thumbnail.gif'],

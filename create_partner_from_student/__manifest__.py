@@ -3,7 +3,7 @@
 
 {
     'name': 'Create Partner From Students',
-    'version': '17.0.1.0.0',
+    'version': '18.0.1.0.0',
     'summary': """ This module helps you to create partner from student""",
     'description': """This module helps you to create partner from student """,
     'sequence': -100,
