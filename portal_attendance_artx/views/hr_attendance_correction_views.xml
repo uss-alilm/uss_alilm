@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        <record id="view_hr_attendance_correction_tree" model="ir.ui.view">
-            <field name="name">hr.attendance.correction.tree</field>
-            <field name="model">hr.attendance.correction</field>
-            <field name="type">tree</field> <!-- Ensure this is correctly set -->
-            <field name="arch" type="xml">
-                <tree string="Attendance Correction Requests">
-                    <field name="employee_id"/>
-                    <field name="original_check_in"/>
-                    <field name="original_check_out"/>
-                    <field name="corrected_check_in"/>
-                    <field name="corrected_check_out"/>
-                    <field name="reason"/>
-                    <field name="state"/>
-                    <field name="create_uid" string="Requested By"/>
-                    <field name="create_date" string="Request Date"/>
-                </tree>
-            </field>
-        </record>
+
+    <record id="view_hr_attendance_correction_tree" model="ir.ui.view">
+        <field name="name">hr.attendance.correction.tree</field>
+        <field name="model">hr.attendance.correction</field>
+        <field name="type">tree</field> <!-- Ensure this line is correct -->
+        <field name="arch" type="xml">
+            <tree string="Attendance Correction Requests">
+                <field name="employee_id"/>
+                <field name="original_check_in"/>
+                <field name="original_check_out"/>
+                <field name="corrected_check_in"/>
+                <field name="corrected_check_out"/>
+                <field name="reason"/>
+                <field name="state"/>
+                <field name="create_uid" string="Requested By"/>
+                <field name="create_date" string="Request Date"/>
+            </tree>
+        </field>
+    </record>
+
 
     <!-- ✅ Tree View -->
     <!-- <record id="view_hr_attendance_correction_tree" model="ir.ui.view">
