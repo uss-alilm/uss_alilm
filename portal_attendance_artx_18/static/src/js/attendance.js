@@ -1,5 +1,5 @@
 'use strict';
-odoo.define('portal_attendance_artx.attendance', [], function (require) {
+odoo.define('portal_attendance_artx_18.attendance', [], function (require) {
 
     require('web.dom_ready');
     var publicWidget = require('web.public.widget');
