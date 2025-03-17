@@ -3,12 +3,6 @@ from odoo import models, fields, api
 class HrLoan(models.Model):
     _inherit = 'hr.loan'
 
-
-
-
-
-
-
 class HrSalary(models.Model):
     _name = 'hr.salary'
     _description = 'Employee Salary'
