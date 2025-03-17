@@ -5,6 +5,7 @@
     <record id="view_hr_attendance_correction_tree" model="ir.ui.view">
         <field name="name">hr.attendance.correction.tree</field>
         <field name="model">hr.attendance.correction</field>
+        <field name="type">tree</field>  <!-- ✅ Add this line -->
         <field name="arch" type="xml">
             <tree string="Attendance Correction Requests">
                 <field name="employee_id"/>
