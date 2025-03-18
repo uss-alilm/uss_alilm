@@ -55,6 +55,7 @@ class HrLoan(models.Model):
             loan.total_amount = loan.loan_amount
             loan.balance_amount = balance_amount
             loan.total_paid_amount = total_paid
+            loan.paid  = total_paid
 
     name = fields.Char(string="Loan Name", default="/", readonly=True,
                        help="Name of the loan")
@@ -99,7 +100,8 @@ class HrLoan(models.Model):
     total_paid_amount = fields.Float(string="Total Paid Amount", store=True,
                                      compute='_compute_loan_amount',
                                      help="Total paid amount")
-    paid = fiels.Float(string="Paid", related="total_paid_amount")
+    paid = fiels.Float(string="Paid", store=True,
+                                     compute='_compute_loan_amount')
     state = fields.Selection([
         ('draft', 'Draft'), ('waiting_approval_1', 'Submitted'),
         ('approve', 'Approved'), ('refuse', 'Refused'), ('cancel', 'Canceled'),
