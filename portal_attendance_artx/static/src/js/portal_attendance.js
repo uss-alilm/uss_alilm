@@ -45,8 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-
-{/* <template id="portal_attendance_js" name="Portal Attendance JS">
+/* 
+{<template id="portal_attendance_js" name="Portal Attendance JS">
     <script>
         function handleAttendance() {
             fetch('/portal/add_attendance', {
@@ -86,4 +86,4 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("Error:", error));
         }
     </script>
-</template> */}
+</template> }*/
