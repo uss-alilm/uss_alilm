@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!--Loan Tree view-->
-    <!-- <record id="hr_loan_view_tree" model="ir.ui.view">
-        <field name="name">hr.loan.view.tree</field>
+    <!-- <record id="hr_loan_view_list" model="ir.ui.view">
+        <field name="name">hr.loan.view.list</field>
         <field name="model">hr.loan</field>
-        <field name="type">tree</field>  
+        <field name="type">list</field>  
         <field name="arch" type="xml">
-            <tree string="Loan Requests">
+            <list string="Loan Requests">
                 <field name="name"/>
                 <field name="employee_id"/>
                 <field name="loan_amount"/>
                 <field name="date"/>
                 <field name="state"/>
-            </tree>
+            </list>
         </field> 
     </record> -->
 
@@ -55,11 +55,11 @@
                     <notebook>
                         <page string="Installments">
                             <field name="loan_line_ids">
-                                <tree string="Installments" editable="bottom">
+                                <list string="Installments" editable="bottom">
                                     <field name="date"/>
                                     <field name="amount"/>
                                     <field name="paid" readonly="1" invisible="1"/>
-                                </tree>
+                                </list>
                             </field>
                             <group class="oe_subtotal_footer oe_right" colspan="2" >
                                 <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
@@ -96,7 +96,7 @@
     <record id="hr_loan_action" model="ir.actions.act_window">
         <field name="name">Request for Loan</field>
         <field name="res_model">hr.loan</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{'search_default_myrequest': 1}</field>
         <field name="search_view_id" ref="hr_loan_view_search"/>
          <field name="help" type="html">
