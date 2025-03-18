@@ -308,7 +308,7 @@
             </xpath>
         </template>
         <!-- POrtal Tree ttee attendance  template -->
-        <template id="portal_attendance_tree" name="Portal Attendance Tree">
+        <template id="portal_attendance_list" name="Portal Attendance Tree">
             <t t-call="portal.layout">
                 <div class="container">
                     <h3>سجل الحضور و الانصراف</h3>

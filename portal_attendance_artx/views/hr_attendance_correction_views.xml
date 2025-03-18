@@ -2,12 +2,12 @@
 <odoo>
 
     <!-- ✅ Tree View -->
-    <!-- <record id="view_hr_attendance_correction_tree" model="ir.ui.view">
-        <field name="name">hr.attendance.correction.tree</field>
+    <record id="view_hr_attendance_correction_list" model="ir.ui.view">
+        <field name="name">hr.attendance.correction.list</field>
         <field name="model">hr.attendance.correction</field>
-        <field name="type">tree</field>  
+        <field name="type">list</field>  
         <field name="arch" type="xml">
-            <tree string="Attendance Correction Requests">
+            <list string="Attendance Correction Requests">
                 <field name="employee_id"/>
                 <field name="original_check_in"/>
                 <field name="original_check_out"/>
@@ -17,9 +17,9 @@
                 <field name="state"/>
                 <field name="create_uid" string="Requested By"/>
                 <field name="create_date" string="Request Date"/>
-            </tree>
+            </list>
         </field>
-    </record> -->
+    </record>
 
     <!-- ✅ Form View -->
     <record id="view_hr_attendance_correction_form" model="ir.ui.view">
@@ -58,7 +58,7 @@
     <record id="action_hr_attendance_correction" model="ir.actions.act_window">
         <field name="name">Attendance Correction Requests</field>
         <field name="res_model">hr.attendance.correction</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <!-- ✅ Menu Item -->
@@ -70,12 +70,12 @@
 <!-- <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="view_hr_attendance_correction_tree" model="ir.ui.view">
-        <field name="name">hr.attendance.correction.tree</field>
+    <record id="view_hr_attendance_correction_list" model="ir.ui.view">
+        <field name="name">hr.attendance.correction.list</field>
         <field name="model">hr.attendance.correction</field>
-        <field name="type">tree</field>  
+        <field name="type">list</field>  
         <field name="arch" type="xml">
-            <tree string="Attendance Correction Requests">
+            <list string="Attendance Correction Requests">
                 <field name="employee_id"/>
                 <field name="original_check_in"/>
                 <field name="original_check_out"/>
@@ -85,7 +85,7 @@
                 <field name="state"/>
                 <field name="create_uid" string="Requested By"/>
                 <field name="create_date" string="Request Date"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -124,7 +124,7 @@
     <record id="action_hr_attendance_correction" model="ir.actions.act_window">
         <field name="name">Attendance Correction Requests</field>
         <field name="res_model">hr.attendance.correction</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem id="menu_hr_attendance_correction" name="Attendance Correction Requests"
