@@ -100,7 +100,7 @@ class HrLoan(models.Model):
     total_paid_amount = fields.Float(string="Total Paid Amount", store=True,
                                      compute='_compute_loan_amount',
                                      help="Total paid amount")
-    paid = fiels.Float(string="Paid", store=True,
+    paid = fields.Float(string="Paid", store=True,
                                      compute='_compute_loan_amount')
     state = fields.Selection([
         ('draft', 'Draft'), ('waiting_approval_1', 'Submitted'),
