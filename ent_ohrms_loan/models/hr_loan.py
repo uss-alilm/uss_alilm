@@ -89,6 +89,7 @@ class HrLoan(models.Model):
                                       help="Job position")
     loan_amount = fields.Float(string="Loan Amount", required=True,
                                help="Loan amount")
+    amount = fields.Float(string="Amount", related="loan_amount")
     total_amount = fields.Float(string="Total Amount", store=True,
                                 readonly=True, compute='_compute_loan_amount',
                                 help="Total loan amount")
