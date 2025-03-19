@@ -2,7 +2,9 @@
     <data>
         <!-- Start Original View check in & out &  create portal user from employee -->
         <template id="portal_my_home_attendance" name="Portal Attendance" inherit_id="portal.portal_my_home" priority="20">
-            <xpath expr="//div[@class='oe_structure']" position="inside">
+            <!-- <xpath expr="//div[@class='oe_structure']" position="inside"> -->
+            <xpath expr="//div[hasclass('oe_structure')]" position="inside">
+
                 <div class="container text-center mt-3">
                     <button id="attendanceBtn" class="btn btn-success attendanceBtn" onclick="handleAttendance()">
                         <i class="fa fa-sign-in" aria-hidden="true"></i>
