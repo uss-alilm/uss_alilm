@@ -465,6 +465,8 @@
                 </section>
 
                 <!-- JavaScript for Validation -->
+                <!-- // if (startDate && endDate && new Date(startDate) > new Date(endDate)) {  -->
+
                 <script>
                     document.getElementById('leaveRequestForm').addEventListener('submit', function(event) {
                         var startDate = document.getElementById('start_date').value;
@@ -472,7 +474,6 @@
                         var errorMessage = document.getElementById('error-message');
 
                         // Validate date fields
-                        // if (startDate && endDate && new Date(startDate) > new Date(endDate)) { 
                         if (startDate &amp;&amp; endDate &amp;&amp; new Date(startDate) > new Date(endDate)) {
 
                             event.preventDefault();
