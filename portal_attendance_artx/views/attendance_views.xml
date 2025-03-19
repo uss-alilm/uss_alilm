@@ -429,8 +429,8 @@
                                     <!-- Leave Type -->
                                     <div class="mb-3">
                                         <label for="leave_type" class="form-label fw-bold">نوع الإجازة</label>
-                                        <select id="leave_type" name="leave_type" class="form-select" required="true">
-                                            <option value="" disabled selected>اختر نوع الإجازة</option>
+                                        <select id="leave_type" name="leave_type" class="form-select" >
+                                            <option value="" disabled="true" selected>اختر نوع الإجازة</option>
                                             <t t-foreach="leave_types" t-as="leave_type">
                                                 <option t-att-value="leave_type.id">
                                                     <t t-esc="leave_type.name"/>
