@@ -413,6 +413,83 @@
                 </div>
             </t>
         </template>
+
+        <template id="leave_form_template" name="Leave Form">
+            <t t-call="portal.portal_layout">
+                <section class="leave-form-section py-4">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <div class="card shadow-sm">
+                                    <div class="card-header bg-primary text-white">
+                                        <h4 class="mb-0 text-center">طلب إجازة</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <form action="/my/leave/submit" method="POST" id="leaveRequestForm">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                            <div class="mb-3">
+                                                <label for="leave_type" class="form-label fw-bold">نوع الإجازة</label>
+                                                <select id="leave_type" name="leave_type" class="form-select" required="true">
+                                                    <option value="" disabled="true" selected="true">اختر نوع الإجازة</option>
+                                                    <t t-foreach="leave_types" t-as="leave_type">
+                                                        <option t-att-value="leave_type.id">
+                                                            <t t-esc="leave_type.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="start_date" class="form-label fw-bold">تاريخ البدء</label>
+                                                <input type="date" id="start_date" name="start_date" class="form-control" required="true" />
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="end_date" class="form-label fw-bold">تاريخ الانتهاء</label>
+                                                <input type="date" id="end_date" name="end_date" class="form-control" required="true" />
+                                            </div>
+
+                                            <div id="error-message" class="text-danger fw-bold mb-3" style="display: none;"></div>
+
+                                            <div class="d-grid">
+                                                <button type="submit" class="btn btn-success">
+                                                    <span id="submit-text">إرسال الطلب</span>
+                                                    <span id="loading-spinner" class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true" style="display: none;"></span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <script>
+                    document.getElementById('leaveRequestForm').addEventListener('submit', function(event) {
+                        var startDate = document.getElementById('start_date').value;
+                        var endDate = document.getElementById('end_date').value;
+                        var errorMessage = document.getElementById('error-message');
+
+                        if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+                            event.preventDefault();
+                            errorMessage.innerText = "يجب أن يكون تاريخ البدء قبل تاريخ الانتهاء.";
+                            errorMessage.style.display = "block";
+                            return;
+                        } else {
+                            errorMessage.style.display = "none";
+                        }
+
+                        document.getElementById('submit-text').innerText = "جارٍ الإرسال...";
+                        document.getElementById('loading-spinner').style.display = "inline-block";
+                    });
+                </script>
+            </t>
+        </template>
+
+
+
        
        <!-- <template id="leave_form_template" name="Leave Form">
             <t t-call="portal.portal_layout">
@@ -447,7 +524,7 @@
         </template> -->
 
 
-        <template id="leave_form_template" name="Leave Form">
+        <!-- <template id="leave_form_template" name="Leave Form">
             <t t-call="portal.portal_layout">
                 <section class="leave-form-section py-4">
                     <div class="container">
@@ -499,10 +576,6 @@
                     </div>
                 </section>
 
-                <!-- JavaScript for Validation -->
-                <!-- // if (startDate && endDate && new Date(startDate) > new Date(endDate)) {  -->
-                        <!-- // Validate date fields -->
-                        <!-- // Show loading spinner -->
 
                 <script>
                     document.getElementById('leaveRequestForm').addEventListener('submit', function(event) {
@@ -525,7 +598,7 @@
                     });
                 </script>
             </t>
-        </template>
+        </template> -->
 
         <!-- <template id="leave_frm_template" name="Leave Form" inherit_id="website.layout"> -->
                     <!-- <xpath expr="//main" position="after"> -->
@@ -561,6 +634,10 @@
                 </section>
             </xpath>
         </template> -->
+                <!-- JavaScript for Validation -->
+                <!-- // if (startDate && endDate && new Date(startDate) > new Date(endDate)) {  -->
+                        <!-- // Validate date fields -->
+                        <!-- // Show loading spinner -->
         <!-- Leaves -->
     </data>
 </odoo>
