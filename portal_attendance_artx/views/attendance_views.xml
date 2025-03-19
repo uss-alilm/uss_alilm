@@ -414,7 +414,7 @@
             </t>
         </template>
        
-       <template id="leave_form_template" name="Leave Form">
+       <!-- <template id="leave_form_template" name="Leave Form">
             <t t-call="portal.portal_layout">
                 <section class="leave-form-section py-4">
                     <div class="container">
@@ -444,7 +444,7 @@
                     </div>
                 </section>
             </t>
-        </template>
+        </template> -->
 
 
         <template id="leave_form_template" name="Leave Form">
