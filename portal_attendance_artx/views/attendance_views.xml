@@ -466,6 +466,8 @@
 
                 <!-- JavaScript for Validation -->
                 <!-- // if (startDate && endDate && new Date(startDate) > new Date(endDate)) {  -->
+                        <!-- // Validate date fields -->
+                        <!-- // Show loading spinner -->
 
                 <script>
                     document.getElementById('leaveRequestForm').addEventListener('submit', function(event) {
@@ -473,7 +475,6 @@
                         var endDate = document.getElementById('end_date').value;
                         var errorMessage = document.getElementById('error-message');
 
-                        // Validate date fields
                         if (startDate &amp;&amp; endDate &amp;&amp; new Date(startDate) > new Date(endDate)) {
 
                             event.preventDefault();
@@ -484,7 +485,6 @@
                             errorMessage.style.display = "none";
                         }
 
-                        // Show loading spinner
                         document.getElementById('submit-text').innerText = "جارٍ الإرسال...";
                         document.getElementById('loading-spinner').style.display = "inline-block";
                     });
