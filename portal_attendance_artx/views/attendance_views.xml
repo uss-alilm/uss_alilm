@@ -472,7 +472,8 @@
                         var endDate = document.getElementById('end_date').value;
                         var errorMessage = document.getElementById('error-message');
 
-                        if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+                        if (startDate &amp;&amp; endDate &amp;&amp; new Date(startDate) > new Date(endDate)) {
+
                             event.preventDefault();
                             errorMessage.innerText = "يجب أن يكون تاريخ البدء قبل تاريخ الانتهاء.";
                             errorMessage.style.display = "block";
@@ -489,7 +490,7 @@
         </template>
 
 
-
+<!--                         if (startDate && endDate && new Date(startDate) > new Date(endDate)) {  -->
        
        <!-- <template id="leave_form_template" name="Leave Form">
             <t t-call="portal.portal_layout">
