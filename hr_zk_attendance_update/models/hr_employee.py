@@ -26,7 +26,6 @@ class HrEmployee(models.Model):
     """Inherit the model to add field"""
     _inherit = 'hr.employee'
 
-
     device_id_num = fields.Char(string='Biometric Device ID',
                                 help="Give the biometric device id")
     deduction_multiplier = fields.Float(string='Deduction Multiplier', default=1.0)
