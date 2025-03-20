@@ -101,8 +101,10 @@
                <table class="table table-bordered">
                   <thead>
                      <tr>
-                        <th>الشهر</th>
-                        <th>المبلغ</th>
+                        <th>الاسم</th>
+                        <th>الراتب الاساسي</th>
+                        <th>الاجمالي</th>
+                        <th>صافي الراتب</th>
                         <th>الوصف</th>
                      </tr>
                   </thead>
@@ -114,7 +116,11 @@
                            </td>
                            <td>
                               <t t-esc="salary.basic_wage" />
+                           <ظtd>
+                           <td>
                               <t t-esc="salary.gross_wage" />
+                           <ظtd>
+                           <td>
                               <t t-esc="salary.net_wage" />
                            </td>
                            <td>
