@@ -114,8 +114,8 @@
                            </td>
                            <td>
                               <t t-esc="salary.basic_wage" />
-                              <t t-esc="salary.gross-_wage" />
-                              <t t-esc="salary.net-_wage" />
+                              <t t-esc="salary.gross_wage" />
+                              <t t-esc="salary.net_wage" />
                            </td>
                            <td>
                               <t t-esc="salary.description or ''" />
