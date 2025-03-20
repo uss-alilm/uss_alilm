@@ -152,7 +152,7 @@
     </record>
 
         <!-- Scheduled Action to Process Attendance Every 5 Minutes -->
-        <record id="ir_cron_process_attendance" model="ir.cron">
+        <!-- <record id="ir_cron_process_attendance" model="ir.cron">
             <field name="name">Process Biometric Attendance</field>
             <field name="model_id" ref="model_zk_machine_attendance"/>
             <field name="state">code</field>
@@ -161,7 +161,20 @@
             <field name="interval_type">minutes</field>
             <field name="numbercall">-1</field>
             <field name="active" eval="True"/>
+        </record> -->
+
+        <!-- Scheduled Action to Process Attendance Every 5 Minutes --> 
+        <record id="ir_cron_process_attendance" model="ir.cron">
+            <field name="name">Process Biometric Attendance</field>
+            <field name="model_id" ref="model_zk_machine_attendance"/>
+            <field name="state">code</field>
+            <field name="code">model.action_process_attendance()</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="active" eval="True"/>  <!-- Removed `numbercall` field -->
         </record>
+
+
 
         <record id="view_machine_attendance_form" model="ir.ui.view">
             <field name="name">zk.machine.attendance.form</field>
