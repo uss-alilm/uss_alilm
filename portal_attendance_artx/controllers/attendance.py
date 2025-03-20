@@ -45,25 +45,25 @@ _logger = logging.getLogger(__name__)
 #         except Exception as e:
 #             return {'error': f'خطأ أثناء إنشاء الحضور: {str(e)}'}
 
-# class PortalAttendance(http.Controller):
-#     @http.route(['/my/attendance'], type='http', auth='user', website=True)
-#     def portal_my_attendance(self, **kwargs):
-#         user = request.env.user
-#         employee = request.env['hr.employee'].sudo().search([('user_id', '=', user.id)], limit=1)
+class PortalAttendance(http.Controller):
+    @http.route(['/my/attendance'], type='http', auth='user', website=True)
+    def portal_my_attendance(self, **kwargs):
+        user = request.env.user
+        employee = request.env['hr.employee'].sudo().search([('user_id', '=', user.id)], limit=1)
     
-#         if not employee:
-#             return request.redirect('/my/home')  # Redirect if no employee is found
+        if not employee:
+            return request.redirect('/my/home')  # Redirect if no employee is found
     
-#         today = fields.Date.today()
-#         first_day_of_current_month = today.replace(day=1)
-#         fifteenth_previous_month = first_day_of_current_month - timedelta(days=15)
+        today = fields.Date.today()
+        first_day_of_current_month = today.replace(day=1)
+        fifteenth_previous_month = first_day_of_current_month - timedelta(days=15)
     
-#         # Get attendance records within the date range
-#         attendance_records = request.env['hr.attendance'].sudo().search([
-#             ('employee_id', '=', employee.id),
-#             ('check_in', '>=', fifteenth_previous_month),
-#             ('check_in', '<=', today)
-#         ])
+        # Get attendance records within the date range
+        attendance_records = request.env['hr.attendance'].sudo().search([
+            ('employee_id', '=', employee.id),
+            ('check_in', '>=', fifteenth_previous_month),
+            ('check_in', '<=', today)
+        ])
     
 
     
