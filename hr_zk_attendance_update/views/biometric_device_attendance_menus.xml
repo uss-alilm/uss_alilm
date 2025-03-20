@@ -75,7 +75,7 @@
     <field name="code">model._cron_compute_attendance_deductions()</field>
     <field name="interval_number">1</field>
     <field name="interval_type">days</field>
-    <field name="doall">False</field>
+    <!-- <field name="doall">False</field> -->
     <field name="active" eval="True"/>
 </record>
 
