@@ -1,83 +1,82 @@
 'use strict';
-odoo.define('portal_attendance_artx.attendance', [], function (require) {
 
-    require('web.dom_ready');
+odoo.define('portal_attendance_artx.attendance', function (require) {
     var publicWidget = require('web.public.widget');
     var ajax = require('web.ajax');
 
-    // Use native JavaScript to select the button element
-    var button = document.getElementById("attendanceBtn");
-    var isCheckIn = true;  // Initialize as true (assuming default is check-in)
+    publicWidget.registry.AttendanceButton = publicWidget.Widget.extend({
+        selector: '#attendanceBtn',
+        events: {
+            'click': '_onButtonClick',
+        },
 
-    var updateButtonStatus = function() {
-        // Fetch the current attendance status when the page loads
-        $.ajax({
-            url: '/portal/get_attendance_status',
-            type: 'GET',
-            success: function(response) {
+        /**
+         * Start function that runs on page load
+         */
+        start: function () {
+            this._super.apply(this, arguments);
+            this.updateButtonStatus();
+        },
 
-                // No need to parse, response is already a JavaScript object
-                if (response.success) {
-                    if (response.message === 'Currently checked in') {
-                        $('#btnText').text('Click to Check Out');
-                        isCheckIn = false;  // Set to false, meaning next action will be check-out
+        /**
+         * Fetch the current attendance status and update the button text accordingly
+         */
+        updateButtonStatus: function () {
+            var self = this;
+            ajax.jsonRpc('/portal/get_attendance_status', 'call', {})
+                .then(function (response) {
+                    if (response.success) {
+                        if (response.message === 'Currently checked in') {
+                            $('#btnText').text('Click to Check Out');
+                            self.isCheckIn = false; // Set to false, meaning next action will be check-out
+                        } else {
+                            $('#btnText').text('Click to Check In');
+                            self.isCheckIn = true; // Set to true, meaning next action will be check-in
+                        }
                     } else {
                         $('#btnText').text('Click to Check In');
-                        isCheckIn = true;  // Set to true, meaning next action will be check-in
+                        self.isCheckIn = true;
                     }
-                } else {
-                    // If not checked in, default to check-in
+                }).fail(function () {
+                    console.error('Error fetching attendance status');
                     $('#btnText').text('Click to Check In');
-                    isCheckIn = true;
-                }
-            },
-            error: function(error) {
-                console.log('Error fetching attendance status:', error);
-                $('#btnText').text('Click to Check In');
-                isCheckIn = true;  // If there's an error, assume next action is check-in
+                    self.isCheckIn = true; // Assume check-in if there's an error
+                });
+        },
+
+        /**
+         * Handles the click event for check-in/check-out
+         */
+        _onButtonClick: function (event) {
+            var self = this;
+            var currentTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+            var requestData = {};
+            if (this.isCheckIn) {
+                requestData['check_in'] = currentTime;
+            } else {
+                requestData['check_out'] = currentTime;
             }
-        });
-    };
 
-    var _onButton = function(e) {
-        const currentTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            // Disable button to prevent multiple clicks
+            $('#attendanceBtn').prop('disabled', true);
 
-        let formData = new FormData();
-        if (isCheckIn) {
-            formData.append('check_in', currentTime);  // Append check-in time
-        } else {
-            formData.append('check_out', currentTime);  // Append check-out time
-        }
-
-        $.ajax({
-            url: '/portal/add_attendance',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                // No need to parse, response is already a JavaScript object
-                if (response.success) {
-                    if (isCheckIn) {
-                        $('#btnText').text('Click to Check Out');
+            ajax.jsonRpc('/portal/add_attendance', 'call', requestData)
+                .then(function (response) {
+                    if (response.success) {
+                        $('#btnText').text(self.isCheckIn ? 'Click to Check Out' : 'Click to Check In');
+                        self.isCheckIn = !self.isCheckIn; // Toggle the check-in/check-out state
                     } else {
-                        $('#btnText').text('Click to Check In');
+                        alert('Failed to record attendance: ' + response.message);
                     }
-                    isCheckIn = !isCheckIn;  // Toggle the check-in/check-out state
-                } else {
-                    alert('Failed to record attendance: ' + response.message);
-                }
-            },
-            error: function(error) {
-                alert('An error occurred while recording attendance');
-                console.log(error);
-            }
-        });
-    };
+                }).fail(function () {
+                    alert('An error occurred while recording attendance');
+                }).always(function () {
+                    // Re-enable button after request completion
+                    $('#attendanceBtn').prop('disabled', false);
+                });
+        }
+    });
 
-    // Check if the button exists before attaching the event listener
-    if (button) {
-        button.addEventListener('click', _onButton);
-        updateButtonStatus();  // Check the current status when the page loads
-    }
+    publicWidget.registry.AttendanceButton;
 });
