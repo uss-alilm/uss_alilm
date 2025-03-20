@@ -113,7 +113,7 @@
                               <t t-esc="salary.payslip_run_id.name" />
                            </td>
                            <td>
-                              <t t-esc="salary.basic-_wage" />
+                              <t t-esc="salary.basic_wage" />
                               <t t-esc="salary.gross-_wage" />
                               <t t-esc="salary.net-_wage" />
                            </td>
