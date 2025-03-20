@@ -1,8 +1,8 @@
 <odoo>
     <data>
         <!-- Start Original View check in & out &  create portal user from employee -->
-        <template id="portal_my_home_attendance" name="Portal Attendance" inherit_id="portal.portal_my_home" priority="20">
-            <!-- <xpath expr="//div[@class='oe_structure']" position="inside"> -->
+        <!-- <xpath expr="//div[@class='oe_structure']" position="inside"> -->
+        <!-- <template id="portal_my_home_attendance" name="Portal Attendance" inherit_id="portal.portal_my_home" priority="20">
             <xpath expr="//div[hasclass('oe_structure')]" position="inside">
 
                 <div class="container text-center mt-3">
@@ -16,7 +16,7 @@
                     </button>
                 </div>
             </xpath>
-        </template>
+        </template> -->
         
         <template id="portal_my_home_sale" name="Show Quotations / Sales Orders" customize_show="True"
                   inherit_id="portal.portal_my_home" priority="20">
