@@ -23,10 +23,11 @@
     ],
     'assets': {
         'web.assets_frontend': [
-            'portal_attendance_artx/static/src/js/portal_attendance.js',
             'portal_attendance_artx/static/src/js/attendance.js',
         ],
     },
+                # 'portal_attendance_artx/static/src/js/portal_attendance.js',
+
     'license': 'LGPL-3',
     'images': ['static/description/banner.gif'],
     'installable': True,
