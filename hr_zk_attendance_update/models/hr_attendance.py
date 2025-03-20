@@ -269,11 +269,11 @@ class HrAttendance(models.Model):
 
             deduction_amount = 0
             if lateness > 20:
-                deduction_amount += (lateness - 20) * employee.per_minute_rate * employee.deduction_multiplier
+                deduction_amount += (lateness - 20) * per_minute_rate * employee.deduction_multiplier
             if early_checkout and early_checkout > 5:
-                deduction_amount += (early_checkout - 5) * employee.per_minute_rate * employee.deduction_multiplier
+                deduction_amount += (early_checkout - 5) * per_minute_rate * employee.deduction_multiplier
             if missing_checkout:
-                deduction_amount += (shift_end_time.hour * 60) * employee.per_minute_rate * employee.deduction_multiplier
+                deduction_amount += (shift_end_time.hour * 60) * per_minute_rate * employee.deduction_multiplier
 
             attendance.deduction_amount = deduction_amount
 
