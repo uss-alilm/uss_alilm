@@ -14,15 +14,15 @@ class PortalAttendance(http.Controller):
     def portal_my_attendance(self, **kwargs):
         user = request.env.user
         employee = request.env['hr.employee'].sudo().search([('user_id', '=', user.id)], limit=1)
-    
+
         if not employee:
             return request.redirect('/my/home')  # Redirect if no employee is found
-    
+
         today = fields.Date.today()
         first_day_of_current_month = today.replace(day=1)
         fifteenth_previous_month = first_day_of_current_month - timedelta(days=15)
-    
-        # Get attendance records within the date range
+
+        # Fetch attendance records
         attendance_records = request.env['hr.attendance'].sudo().search([
             ('employee_id', '=', employee.id),
             ('check_in', '>=', fifteenth_previous_month),
@@ -30,8 +30,31 @@ class PortalAttendance(http.Controller):
         ])
 
         return request.render('portal_attendance_artx.portal_my_attendance', {
-            'attendance_records': attendance_records
+            'attendance_records': attendance_records  # Pass ORM records
         })
+
+    # @http.route(['/my/attendance'], type='http', auth='user', website=True)
+    # def portal_my_attendance(self, **kwargs):
+    #     user = request.env.user
+    #     employee = request.env['hr.employee'].sudo().search([('user_id', '=', user.id)], limit=1)
+    
+    #     if not employee:
+    #         return request.redirect('/my/home')  # Redirect if no employee is found
+    
+    #     today = fields.Date.today()
+    #     first_day_of_current_month = today.replace(day=1)
+    #     fifteenth_previous_month = first_day_of_current_month - timedelta(days=15)
+    
+    #     # Get attendance records within the date range
+    #     attendance_records = request.env['hr.attendance'].sudo().search([
+    #         ('employee_id', '=', employee.id),
+    #         ('check_in', '>=', fifteenth_previous_month),
+    #         ('check_in', '<=', today)
+    #     ])
+
+    #     return request.render('portal_attendance_artx.portal_my_attendance', {
+    #         'attendance_records': attendance_records
+    #     })
 
 
 # # --- leaves  
