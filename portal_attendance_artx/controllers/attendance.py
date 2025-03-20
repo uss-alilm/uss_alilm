@@ -9,42 +9,6 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-# class PortalAttendance(http.Controller):
-
-#     @http.route('/portal/add_attendance', type='json', auth='user', methods=['POST'])
-#     def add_attendance(self, **kwargs):
-#         user = request.env.user
-#         employee = user.employee_id
-
-#         if not employee:
-#             return {'error': 'الموظف غير موجود'}
-
-#         # البحث عن آخر تسجيل حضور
-#         last_attendance = request.env['hr.attendance'].sudo().search([
-#             ('employee_id', '=', employee.id)
-#         ], order="check_in desc", limit=1)
-
-#         if last_attendance and not last_attendance.check_out:
-#             return {'error': 'يجب تسجيل الخروج قبل تسجيل حضور جديد'}
-
-#         try:
-#             # إنشاء الحضور
-#             attendance = request.env['hr.attendance'].sudo().create({
-#                 'employee_id': employee.id,
-#                 'check_in': fields.Datetime.now(),
-#             })
-
-#             # تحديث بيانات الموظف
-#             employee.sudo().write({
-#                 'last_attendance_id': attendance.id,
-#                 'last_check_in': attendance.check_in,
-#             })
-
-#             return {'success': True, 'attendance_id': attendance.id}
-
-#         except Exception as e:
-#             return {'error': f'خطأ أثناء إنشاء الحضور: {str(e)}'}
-
 class PortalAttendance(http.Controller):
     @http.route(['/my/attendance'], type='http', auth='user', website=True)
     def portal_my_attendance(self, **kwargs):
@@ -64,149 +28,10 @@ class PortalAttendance(http.Controller):
             ('check_in', '>=', fifteenth_previous_month),
             ('check_in', '<=', today)
         ])
-    
 
-    
-#         # attendance_records = request.env['hr.attendance'].sudo().search_read([
-#         #     ('employee_id', '=', request.env.user.employee_id.id),
-#         #     ('check_in', '>=', fifteenth_previous_month),
-#         #     ('check_in', '<=', today)
-#         # ], ['check_in', 'check_out', 'worked_hours', 'overtime_minutes', 'lateness', 'deduction_amount'])
-
-
-#         # Convert check-in and check-out times from UTC to Asia/Riyadh
-#         user_tz = pytz.timezone('Asia/Riyadh')  # Set to Riyadh timezone
-#         utc_tz = pytz.UTC
-    
-#         def convert_to_tz(dt):
-#             if dt:
-#                 dt_utc = dt.replace(tzinfo=utc_tz) if dt.tzinfo is None else dt.astimezone(utc_tz)
-#                 return dt_utc.astimezone(user_tz).replace(tzinfo=None)  # Convert to Riyadh and remove tzinfo
-#             return None
-        
-#         def convert_datetime_to_str(dt):
-#             if dt:
-#                 return dt.strftime("%Y-%m-%d %H:%M:%S")  # Format datetime to string
-#             return None
-    
-#         converted_attendance = []
-#         for record in attendance_records:
-#             converted_attendance.append({
-#                 'id': record.id,  # Add this line
-#                 'check_in': convert_datetime_to_str(convert_to_tz(record.check_in)),
-#                 'check_out': convert_datetime_to_str(convert_to_tz(record.check_out)) if record.check_out else None,
-#                 # 'worked_hours': record.worked_hours,  # Keep `worked_hours` intact
-#                 'worked_hours': record.worked_hours or 0.0,  # Keep `worked_hours` intact & Never NONE
-
-#             })
-    
-#         # Return JSON response
-#         # return json.dumps({
-#         #     'attendance_records': converted_attendance,
-#         # })
-        
-
-#         # Define the values dictionary
-#         values = {
-#             'attendance_records': converted_attendance,
-#             'employee_name': employee.name,  # Add employee name for display
-#         }
-        
-#         return request.render('portal_attendance_artx.portal_my_attendance', values)
-
-# class PortalAttendance(http.Controller):
-
-#     @http.route('/portal/add_attendance', type='json', auth='user', methods=['POST'], csrf=False)
-#     def add_attendance(self, **kwargs):
-#         """ Handle Employee Check-in """
-#         user = request.env.user
-#         employee = request.env['hr.employee'].sudo().search([('user_id', '=', user.id)], limit=1)
-
-#         if not employee:
-#             return {'success': False, 'message': 'الموظف غير موجود'}
-
-#         last_attendance = request.env['hr.attendance'].sudo().search([
-#             ('employee_id', '=', employee.id)
-#         ], order="check_in desc", limit=1)
-
-#         if last_attendance and not last_attendance.check_out:
-#             return {'success': False, 'message': 'يجب تسجيل الخروج أولاً'}
-
-#         attendance = request.env['hr.attendance'].sudo().create({
-#             'employee_id': employee.id,
-#             'check_in': fields.Datetime.now(),
-#         })
-
-#         return {'success': True, 'message': 'تم تسجيل الحضور بنجاح!'}
-
-#     @http.route('/portal/check_out', type='json', auth='user', methods=['POST'], csrf=False)
-#     def check_out(self, **kwargs):
-#         """ Handle Employee Check-out """
-#         user = request.env.user
-#         employee = request.env['hr.employee'].sudo().search([('user_id', '=', user.id)], limit=1)
-
-#         if not employee:
-#             return {'success': False, 'message': 'الموظف غير موجود'}
-
-#         last_attendance = request.env['hr.attendance'].sudo().search([
-#             ('employee_id', '=', employee.id),
-#             ('check_out', '=', False)
-#         ], order="check_in desc", limit=1)
-
-#         if not last_attendance:
-#             return {'success': False, 'message': 'لا يوجد تسجيل دخول مفتوح'}
-
-#         last_attendance.sudo().write({'check_out': fields.Datetime.now()})
-
-#         return {'success': True, 'message': 'تم تسجيل الخروج بنجاح!'}
-
-# # class AttendanceController(http.Controller):
-
-# #     @http.route('/portal/add_attendance', type='http', auth="user", methods=['POST'], csrf=False)
-# #     def add_attendance(self, **kwargs):
-# #         """
-# #         Allows adding a check-in. Does not allow check-outs.
-# #         Disallows creating a check-in that is older than 30 days from now.
-# #         """
-# #         user = request.env.user
-# #         employee = request.env['hr.employee'].sudo().search([('user_id', '=', user.id)], limit=1)
-
-# #         if not employee:
-# #             response_data = {'success': False, 'message': 'Employee not found for the logged-in user'}
-# #             return request.make_response(json.dumps(response_data), headers=[('Content-Type', 'application/json')])
-
-# #         # Retrieve check_in from the POST data
-# #         check_in_str = kwargs.get('check_in')
-# #         if not check_in_str:
-# #             response_data = {'success': False, 'message': 'No check_in date/time provided'}
-# #             return request.make_response(json.dumps(response_data), headers=[('Content-Type', 'application/json')])
-
-# #         # Convert the check_in string to a datetime object
-# #         try:
-# #             check_in_dt = fields.Datetime.from_string(check_in_str)
-# #         except Exception:
-# #             check_in_dt = False
-
-# #         if not check_in_dt:
-# #             response_data = {'success': False, 'message': 'Invalid check_in format'}
-# #             return request.make_response(json.dumps(response_data), headers=[('Content-Type', 'application/json')])
-
-# #         # Disallow check-in older than 30 days
-# #         thirty_days_ago = fields.Datetime.now() - timedelta(days=30)
-# #         if check_in_dt < thirty_days_ago:
-# #             response_data = {'success': False, 'message': 'Cannot create attendance older than 30 days'}
-# #             return request.make_response(json.dumps(response_data), headers=[('Content-Type', 'application/json')])
-
-# #         # Create new attendance record
-# #         attendance = request.env['hr.attendance'].sudo().create({
-# #             'employee_id': employee.id,
-# #             'check_in': check_in_dt,
-# #             # Note: No check_out is being set here
-# #         })
-
-# #         response_data = {'success': True, 'message': 'Check-in recorded'}
-# #         return request.make_response(json.dumps(response_data), headers=[('Content-Type', 'application/json')])
-
+        return request.render('portal_attendance_artx.portal_my_attendance', {
+            'attendance_records': attendance_records
+        })
 
 
 # # --- leaves  
@@ -1172,3 +997,186 @@ class PortalLeaves(http.Controller):
     #         }
     #
     #     return request.make_response(json.dumps(response_data), headers=[('Content-Type', 'application/json')])
+
+
+# class PortalAttendance(http.Controller):
+
+#     @http.route('/portal/add_attendance', type='json', auth='user', methods=['POST'])
+#     def add_attendance(self, **kwargs):
+#         user = request.env.user
+#         employee = user.employee_id
+
+#         if not employee:
+#             return {'error': 'الموظف غير موجود'}
+
+#         # البحث عن آخر تسجيل حضور
+#         last_attendance = request.env['hr.attendance'].sudo().search([
+#             ('employee_id', '=', employee.id)
+#         ], order="check_in desc", limit=1)
+
+#         if last_attendance and not last_attendance.check_out:
+#             return {'error': 'يجب تسجيل الخروج قبل تسجيل حضور جديد'}
+
+#         try:
+#             # إنشاء الحضور
+#             attendance = request.env['hr.attendance'].sudo().create({
+#                 'employee_id': employee.id,
+#                 'check_in': fields.Datetime.now(),
+#             })
+
+#             # تحديث بيانات الموظف
+#             employee.sudo().write({
+#                 'last_attendance_id': attendance.id,
+#                 'last_check_in': attendance.check_in,
+#             })
+
+#             return {'success': True, 'attendance_id': attendance.id}
+
+#         except Exception as e:
+#             return {'error': f'خطأ أثناء إنشاء الحضور: {str(e)}'}
+
+
+
+
+# # class AttendanceController(http.Controller):
+
+# #     @http.route('/portal/add_attendance', type='http', auth="user", methods=['POST'], csrf=False)
+# #     def add_attendance(self, **kwargs):
+# #         """
+# #         Allows adding a check-in. Does not allow check-outs.
+# #         Disallows creating a check-in that is older than 30 days from now.
+# #         """
+# #         user = request.env.user
+# #         employee = request.env['hr.employee'].sudo().search([('user_id', '=', user.id)], limit=1)
+
+# #         if not employee:
+# #             response_data = {'success': False, 'message': 'Employee not found for the logged-in user'}
+# #             return request.make_response(json.dumps(response_data), headers=[('Content-Type', 'application/json')])
+
+# #         # Retrieve check_in from the POST data
+# #         check_in_str = kwargs.get('check_in')
+# #         if not check_in_str:
+# #             response_data = {'success': False, 'message': 'No check_in date/time provided'}
+# #             return request.make_response(json.dumps(response_data), headers=[('Content-Type', 'application/json')])
+
+# #         # Convert the check_in string to a datetime object
+# #         try:
+# #             check_in_dt = fields.Datetime.from_string(check_in_str)
+# #         except Exception:
+# #             check_in_dt = False
+
+# #         if not check_in_dt:
+# #             response_data = {'success': False, 'message': 'Invalid check_in format'}
+# #             return request.make_response(json.dumps(response_data), headers=[('Content-Type', 'application/json')])
+
+# #         # Disallow check-in older than 30 days
+# #         thirty_days_ago = fields.Datetime.now() - timedelta(days=30)
+# #         if check_in_dt < thirty_days_ago:
+# #             response_data = {'success': False, 'message': 'Cannot create attendance older than 30 days'}
+# #             return request.make_response(json.dumps(response_data), headers=[('Content-Type', 'application/json')])
+
+# #         # Create new attendance record
+# #         attendance = request.env['hr.attendance'].sudo().create({
+# #             'employee_id': employee.id,
+# #             'check_in': check_in_dt,
+# #             # Note: No check_out is being set here
+# #         })
+
+# #         response_data = {'success': True, 'message': 'Check-in recorded'}
+# #         return request.make_response(json.dumps(response_data), headers=[('Content-Type', 'application/json')])
+
+
+    
+#         # attendance_records = request.env['hr.attendance'].sudo().search_read([
+#         #     ('employee_id', '=', request.env.user.employee_id.id),
+#         #     ('check_in', '>=', fifteenth_previous_month),
+#         #     ('check_in', '<=', today)
+#         # ], ['check_in', 'check_out', 'worked_hours', 'overtime_minutes', 'lateness', 'deduction_amount'])
+
+
+#         # Convert check-in and check-out times from UTC to Asia/Riyadh
+#         user_tz = pytz.timezone('Asia/Riyadh')  # Set to Riyadh timezone
+#         utc_tz = pytz.UTC
+    
+#         def convert_to_tz(dt):
+#             if dt:
+#                 dt_utc = dt.replace(tzinfo=utc_tz) if dt.tzinfo is None else dt.astimezone(utc_tz)
+#                 return dt_utc.astimezone(user_tz).replace(tzinfo=None)  # Convert to Riyadh and remove tzinfo
+#             return None
+        
+#         def convert_datetime_to_str(dt):
+#             if dt:
+#                 return dt.strftime("%Y-%m-%d %H:%M:%S")  # Format datetime to string
+#             return None
+    
+#         converted_attendance = []
+#         for record in attendance_records:
+#             converted_attendance.append({
+#                 'id': record.id,  # Add this line
+#                 'check_in': convert_datetime_to_str(convert_to_tz(record.check_in)),
+#                 'check_out': convert_datetime_to_str(convert_to_tz(record.check_out)) if record.check_out else None,
+#                 # 'worked_hours': record.worked_hours,  # Keep `worked_hours` intact
+#                 'worked_hours': record.worked_hours or 0.0,  # Keep `worked_hours` intact & Never NONE
+
+#             })
+    
+#         # Return JSON response
+#         # return json.dumps({
+#         #     'attendance_records': converted_attendance,
+#         # })
+        
+
+#         # Define the values dictionary
+#         values = {
+#             'attendance_records': converted_attendance,
+#             'employee_name': employee.name,  # Add employee name for display
+#         }
+        
+#         return request.render('portal_attendance_artx.portal_my_attendance', values)
+
+# class PortalAttendance(http.Controller):
+
+#     @http.route('/portal/add_attendance', type='json', auth='user', methods=['POST'], csrf=False)
+#     def add_attendance(self, **kwargs):
+#         """ Handle Employee Check-in """
+#         user = request.env.user
+#         employee = request.env['hr.employee'].sudo().search([('user_id', '=', user.id)], limit=1)
+
+#         if not employee:
+#             return {'success': False, 'message': 'الموظف غير موجود'}
+
+#         last_attendance = request.env['hr.attendance'].sudo().search([
+#             ('employee_id', '=', employee.id)
+#         ], order="check_in desc", limit=1)
+
+#         if last_attendance and not last_attendance.check_out:
+#             return {'success': False, 'message': 'يجب تسجيل الخروج أولاً'}
+
+#         attendance = request.env['hr.attendance'].sudo().create({
+#             'employee_id': employee.id,
+#             'check_in': fields.Datetime.now(),
+#         })
+
+#         return {'success': True, 'message': 'تم تسجيل الحضور بنجاح!'}
+
+#     @http.route('/portal/check_out', type='json', auth='user', methods=['POST'], csrf=False)
+#     def check_out(self, **kwargs):
+#         """ Handle Employee Check-out """
+#         user = request.env.user
+#         employee = request.env['hr.employee'].sudo().search([('user_id', '=', user.id)], limit=1)
+
+#         if not employee:
+#             return {'success': False, 'message': 'الموظف غير موجود'}
+
+#         last_attendance = request.env['hr.attendance'].sudo().search([
+#             ('employee_id', '=', employee.id),
+#             ('check_out', '=', False)
+#         ], order="check_in desc", limit=1)
+
+#         if not last_attendance:
+#             return {'success': False, 'message': 'لا يوجد تسجيل دخول مفتوح'}
+
+#         last_attendance.sudo().write({'check_out': fields.Datetime.now()})
+
+#         return {'success': True, 'message': 'تم تسجيل الخروج بنجاح!'}
+
