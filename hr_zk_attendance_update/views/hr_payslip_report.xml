@@ -46,7 +46,7 @@
                 <!-- <page string="معلومات إضافية"> -->
                     <group col="2">
 <!--                         <field name="extra_info_id" nolabel="1">
-                            <tree editable="bottom"> -->
+                            <list editable="bottom"> -->
 <!--                                 <field name="total_allowances"/>
                                 <field name="total_deductions"/>
                                 <field name="bank_account"/>
@@ -54,7 +54,7 @@
                                 <field name="total_overtime_minutes"/>
                                 <field name="total_late_minutes"/>
 
-<!--                             </tree> -->
+<!--                             </list> -->
                             <form string="معلومات إضافية">
                                 <group col="2">
 <!--                                     <field name="total_allowances"/>
