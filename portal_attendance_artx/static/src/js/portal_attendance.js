@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+/*document.addEventListener("DOMContentLoaded", function () {
     const attendanceBtn = document.getElementById("attendanceBtn");
     const checkoutBtn = document.getElementById("checkoutBtn");
 
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
-
+*/
 /* 
 {<template id="portal_attendance_js" name="Portal Attendance JS">
     <script>
