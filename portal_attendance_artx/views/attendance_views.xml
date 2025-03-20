@@ -18,7 +18,7 @@
             </xpath>
         </template> -->
         
-        <template id="portal_my_home_sale" name="Show Quotations / Sales Orders" customize_show="True"
+        <!-- <template id="portal_my_home_sale" name="Show Quotations / Sales Orders" customize_show="True"
                   inherit_id="portal.portal_my_home" priority="20">
             <div class="oe_structure" position="inside">
                 <div class="container">
@@ -28,7 +28,69 @@
                     </button>
                 </div>
             </div>
+        </template> -->
+
+        <!-- Inherit the Portal Home Template -->
+        <template id="portal_my_home_attendance" inherit_id="portal.portal_my_home" priority="20">
+            <xpath expr="//div[@id='portal_client_category']" position="inside">
+                <div class="container text-center mt-3">
+                    <!-- Check-In Button -->
+                    <t t-if="not request.env.user.employee_id.last_attendance_id or request.env.user.employee_id.last_attendance_id.check_out">
+                        <button id="attendanceBtn" class="btn btn-success" onclick="handleAttendance()">
+                            <i class="fa fa-sign-in" aria-hidden="true"></i>
+                            <span id="btnText">سجل الدخول</span>
+                        </button>
+                    </t>
+                    <!-- Check-Out Button (Only shows if user is checked in) -->
+                    <t t-if="request.env.user.employee_id.last_attendance_id and not request.env.user.employee_id.last_attendance_id.check_out">
+                        <button id="checkoutBtn" class="btn btn-danger mt-2" onclick="handleCheckout()">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            <span>تسجيل الخروج</span>
+                        </button>
+                    </t>
+                </div>
+            </xpath>
         </template>
+
+        <!-- Attendance Check-In/Check-Out JavaScript -->
+        <script type="text/javascript">
+            function handleAttendance() {
+                fetch('/portal/add_attendance', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('تم تسجيل الدخول بنجاح!');
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+
+            function handleCheckout() {
+                fetch('/portal/check_out', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('تم تسجيل الخروج بنجاح!');
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        </script>
+    
 
         <record id="action_hr_employee_create_portal_user" model="ir.actions.server">
             <field name="name">Create Portal User</field>
