@@ -37,9 +37,9 @@
 
         ],
     },
-    'external_dependencies': {
-        'python': ['opencv-python', 'face-recognition'],
-    },
+    # 'external_dependencies': {
+    #     'python': ['opencv-python', 'face-recognition'],
+    # },
     'images': ['static/description/banner.gif'],
     'license': 'LGPL-3',
     'installable': True,
