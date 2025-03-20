@@ -6,6 +6,19 @@ from odoo.exceptions import UserError
 
 #     time_credit = fields.Float(string="Time Credit")
 
+class HrAttendance(models.Model):
+    _inherit = "hr.attendance"
+
+    overtime_minutes = fields.Integer(string="Overtime (Minutes)", compute="_compute_overtime")
+
+    def _compute_overtime(self):
+        for rec in self:
+            if rec.check_in and rec.check_out:
+                total_worked = (rec.check_out - rec.check_in).total_seconds() / 60
+                rec.overtime_minutes = max(0, total_worked - 480)  # Assuming 8 hours (480 min) is normal work time
+            else:
+                rec.overtime_minutes = 0
+
 class HrContractHistory(models.Model):
     _name = "hr.contract.history"
     _inherit = "hr.contract.history"
@@ -13,8 +26,8 @@ class HrContractHistory(models.Model):
     time_credit = fields.Float(string="Time Credit")
     work_time_rate = fields.Float(string="Work Time Rate")
 
-class AttendanceInherit(models.Model):
-    _inherit = 'hr.attendance'
+# class AttendanceInherit(models.Model):
+#     _inherit = 'hr.attendance'
 
 class LeaveInherit(models.Model):
     _inherit = 'hr.leave'
