@@ -4,7 +4,7 @@ from odoo.exceptions import UserError
 class HrContractHistory(models.Model):
     _name = 'hr.contract.history'
 
-    time_credit = fields.Float(string="Time Credit")
+    # time_credit = fields.Float(string="Time Credit")
 
 class HrAttendance(models.Model):
     _inherit = "hr.attendance"
