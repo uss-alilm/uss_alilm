@@ -27,6 +27,7 @@ class HrContractHistory(models.Model):
         currency_field='currency_id'
     )
 
+
 class HrAttendance(models.Model):
     _inherit = "hr.attendance"
 
