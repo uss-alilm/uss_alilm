@@ -17,15 +17,15 @@ from odoo.exceptions import UserError
 
 class HrContractHistory(models.Model):
     _name = 'hr.contract.history'
-    _description = "Contract History"
-    _auto = True  # ✅ هذا مهم! يجعل Odoo ينشئ جدول حقيقي
+    # _description = "Contract History"
+    # _auto = True  # ✅ هذا مهم! يجعل Odoo ينشئ جدول حقيقي
 
-    # حقولك...
-    currency_id = fields.Many2one('res.currency', string="Currency")
-    reference_yearly_cost = fields.Monetary(
-        string="Yearly Cost",
-        currency_field='currency_id'
-    )
+    # # حقولك...
+    # currency_id = fields.Many2one('res.currency', string="Currency")
+    # reference_yearly_cost = fields.Monetary(
+    #     string="Yearly Cost",
+    #     currency_field='currency_id'
+    # )
 
 
 class HrAttendance(models.Model):
