@@ -15,9 +15,9 @@ from odoo.exceptions import UserError
 #     )
 #     currency_id = fields.Many2one('res.currency', string="Currency")
 
-class HrContractHistory(models.Model):
-    _name = 'hr.contract.history'
-    # _description = "Contract History"
+# class HrContractHistory(models.Model):
+#     _name = 'hr.contract.history'
+#     # _description = "Contract History"
     # _auto = True  # ✅ هذا مهم! يجعل Odoo ينشئ جدول حقيقي
 
     # # حقولك...
