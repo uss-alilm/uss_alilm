@@ -1,8 +1,8 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
-class HrContractHistory(models.Model):
-    _name = 'hr.contract.history'
+# class HrContractHistory(models.Model):
+#     _name = 'hr.contract.history'
 
     # time_credit = fields.Float(string="Time Credit")
 
