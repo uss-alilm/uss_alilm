@@ -5,6 +5,15 @@ class HrContractHistory(models.Model):
     _name = 'hr.contract.history'
 
     # time_credit = fields.Float(string="Time Credit")
+# class HrContractHistory(models.Model):
+#     _name = 'hr.contract.history'
+#     _description = "Contract History"
+
+    reference_yearly_cost = fields.Monetary(
+        string="Yearly Cost",
+        currency_field='currency_id'
+    )
+    currency_id = fields.Many2one('res.currency', string="Currency")
 
 class HrAttendance(models.Model):
     _inherit = "hr.attendance"
