@@ -1,5 +1,11 @@
 from odoo import models, fields, api
 
+class HrContractHistory(models.Model):
+    _name = "hr.contract.history"
+    _description = "Contract History"
+
+    time_credit = fields.Float(string="Time Credit", default=0.0)  # ✅ Ensure this field exists
+
 class HrLeaveType(models.Model):
     _inherit = "hr.leave.type"
 
