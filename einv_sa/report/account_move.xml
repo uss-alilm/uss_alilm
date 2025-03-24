@@ -25,35 +25,38 @@
                     <span t-if="doc.move_type=='out_refund'"> - Credit Note إشعار دائن</span>
                     <span t-if="doc.move_type=='in_refund'"> - Debit Note إشعار مدين</span>
                 </h3>
+            <div class="row my-1">
+                <div class="col-9">
 
-                <table t-att-style="style_table">
-                    <thead>
-                        <tr>
-                            <th t-att-style="style_th">Field</th>
-                            <th t-att-style="style_th">القيمة</th>
-                            <th t-att-style="style_th">الحقل</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td t-att-style="style_td">Invoice Number</td>
-                            <td t-att-style="style_td"><span t-field="doc.name"/></td>
-                            <td t-att-style="style_td">رقم الفاتورة</td>
-                        </tr>
-                        <tr>
-                            <td t-att-style="style_td">Invoice Date</td>
-                            <td t-att-style="style_td"><span t-field="doc.invoice_date"/></td>
-                            <td t-att-style="style_td">تاريخ الفاتورة</td>
-                        </tr>
-                        <tr>
-                            <td t-att-style="style_td">Date of Supply</td>
-                            <td t-att-style="style_td"><span t-field="doc.einv_sa_delivery_date"/></td>
-                            <td t-att-style="style_td">تاريخ التوريد</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="text-center mt-2" style="margin-top: 12px;">
+                    <table t-att-style="style_table">
+                        <thead>
+                            <tr>
+                                <th t-att-style="style_th">Field</th>
+                                <th t-att-style="style_th">القيمة</th>
+                                <th t-att-style="style_th">الحقل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td t-att-style="style_td">Invoice Number</td>
+                                <td t-att-style="style_td"><span t-field="doc.name"/></td>
+                                <td t-att-style="style_td">رقم الفاتورة</td>
+                            </tr>
+                            <tr>
+                                <td t-att-style="style_td">Invoice Date</td>
+                                <td t-att-style="style_td"><span t-field="doc.invoice_date"/></td>
+                                <td t-att-style="style_td">تاريخ الفاتورة</td>
+                            </tr>
+                            <tr>
+                                <td t-att-style="style_td">Date of Supply</td>
+                                <td t-att-style="style_td"><span t-field="doc.einv_sa_delivery_date"/></td>
+                                <td t-att-style="style_td">تاريخ التوريد</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                    <div class="col-3" >
+                <!-- <div class="text-center mt-2" style="margin-top: 12px;"> -->
                     <img t-if="doc.einv_sa_qr_code_str"
                         t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=130&amp;height=130' % doc.einv_sa_qr_code_str"
                         alt="QR Code"
