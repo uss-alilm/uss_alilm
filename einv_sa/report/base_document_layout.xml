@@ -46,6 +46,34 @@
 
         </template>
 
+
+
+<template id="einv_external_layout_standard" inherit_id="web.external_layout_standard">
+    <xpath expr="//div[contains(@class,'footer')]" position="inside">
+        <t t-call="einv_sa.financial_layout_row_ul"/>
+    </xpath>
+</template>
+
+<template id="einv_external_layout_boxed" inherit_id="web.external_layout_boxed">
+    <xpath expr="//div[contains(@class,'footer')]" position="inside">
+        <t t-call="einv_sa.financial_layout_row_ul"/>
+    </xpath>
+</template>
+
+<template id="einv_external_layout_bold" inherit_id="web.external_layout_bold">
+    <xpath expr="//div[contains(@class,'footer')]" position="inside">
+        <t t-call="einv_sa.financial_layout_row_ul"/>
+    </xpath>
+</template>
+
+<template id="einv_external_layout_striped" inherit_id="web.external_layout_striped">
+    <xpath expr="//div[contains(@class,'footer')]" position="inside">
+        <t t-call="einv_sa.financial_layout_row_ul"/>
+    </xpath>
+</template>
+
+
+<!--
         <template id="einv_external_layout_standard"
                   inherit_id="web.external_layout_standard">
             <xpath expr="//div[contains(@t-attf-class,'footer')]div[/divul" position="before">
@@ -53,9 +81,9 @@
                 </group>
 
             </xpath>
-            <!--            <xpath expr="//li[@t-if='company.vat']" position="replace">-->
+            <!- -            <xpath expr="//li[@t-if='company.vat']" position="replace">- ->
 
-            <!--            </xpath>-->
+            <!- -            </xpath>- ->
         </template>
 
         <template id="einv_external_layout_boxed"
@@ -65,9 +93,9 @@
                 </group>
 
             </xpath>
-            <!--            <xpath expr="//li[@t-if='company.vat']" position="replace">-->
+            <!- -            <xpath expr="//li[@t-if='company.vat']" position="replace">- ->
 
-            <!--            </xpath>-->
+            <!- -            </xpath>- ->
         </template>
 
         <template id="einv_external_layout_bold"
@@ -89,6 +117,7 @@
             </xpath>
 
         </template>
+        -->
 
     </data>
 </odoo>
