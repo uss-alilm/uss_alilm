@@ -239,8 +239,8 @@
                         </tr>
                         <tr>
                             <td t-att-style="style_td"> العنوان</td>
-                            <td t-att-style="style_td"><span t-field="doc.partner_id.building_no"/></td>
-                             <td t-att-style="style_td"><span t-field="doc.partner_id.street"/> - 
+                            <span t-field="doc.partner_id.building_no"/> - 
+                            <span t-field="doc.partner_id.street"/> - 
                             <span t-field="doc.partner_id.district"/> - 
                             <span t-field="doc.partner_id.city"/> - 
                             <span t-field="doc.partner_id.country_id.name"/></td>
