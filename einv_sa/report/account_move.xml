@@ -53,6 +53,79 @@
         </template>
 
         <template id="einv_sa.partner_info">
+    <t t-set="style_table" t-value="'width:100%; margin-top: 16px; border-collapse: collapse;'"/>
+    <t t-set="style_th" t-value="'background-color:#f2f2f2; padding: 6px; text-align:left; font-weight:bold; border: 1px solid #ddd;'"/>
+    <t t-set="style_td" t-value="'padding: 6px; text-align:center; border: 1px solid #ddd;'"/>
+
+    <div style="page-break-inside: avoid;">
+        <h4 class="text-center mb-2">👤 Buyer Information / بيانات العميل</h4>
+
+        <table t-att-style="style_table">
+            <thead>
+                <tr>
+                    <th t-att-style="style_th">Field</th>
+                    <th t-att-style="style_th">الحقل</th>
+                    <th t-att-style="style_th">Value / القيمة</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td t-att-style="style_td">Name</td>
+                    <td t-att-style="style_td">الاسم</td>
+                    <td t-att-style="style_td"><span t-field="doc.partner_id.name"/></td>
+                </tr>
+                <tr>
+                    <td t-att-style="style_td">Building No</td>
+                    <td t-att-style="style_td">رقم المبني</td>
+                    <td t-att-style="style_td"><span t-field="doc.partner_id.building_no"/></td>
+                </tr>
+                <tr>
+                    <td t-att-style="style_td">Street</td>
+                    <td t-att-style="style_td">اسم الشارع</td>
+                    <td t-att-style="style_td"><span t-field="doc.partner_id.street"/></td>
+                </tr>
+                <tr>
+                    <td t-att-style="style_td">District</td>
+                    <td t-att-style="style_td">الحي</td>
+                    <td t-att-style="style_td"><span t-field="doc.partner_id.district"/></td>
+                </tr>
+                <tr>
+                    <td t-att-style="style_td">City</td>
+                    <td t-att-style="style_td">المدينة</td>
+                    <td t-att-style="style_td"><span t-field="doc.partner_id.city"/></td>
+                </tr>
+                <tr>
+                    <td t-att-style="style_td">Country</td>
+                    <td t-att-style="style_td">البلد</td>
+                    <td t-att-style="style_td"><span t-field="doc.partner_id.country_id.name"/></td>
+                </tr>
+                <tr>
+                    <td t-att-style="style_td">Postal Code</td>
+                    <td t-att-style="style_td">الرمز البريدي</td>
+                    <td t-att-style="style_td"><span t-field="doc.partner_id.zip"/></td>
+                </tr>
+                <tr>
+                    <td t-att-style="style_td">Additional No</td>
+                    <td t-att-style="style_td">الرقم الإضافي</td>
+                    <td t-att-style="style_td"><span t-field="doc.partner_id.additional_no"/></td>
+                </tr>
+                <tr>
+                    <td t-att-style="style_td">VAT Number</td>
+                    <td t-att-style="style_td">الرقم الضريبي</td>
+                    <td t-att-style="style_td"><span t-field="doc.partner_id.vat"/></td>
+                </tr>
+                <tr>
+                    <td t-att-style="style_td">Other ID</td>
+                    <td t-att-style="style_td">معرّف آخر</td>
+                    <td t-att-style="style_td"><span t-field="doc.partner_id.other_id"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</template>
+
+<!-- 
+        <template id="einv_sa.partner_info">
             <group class="row p-1 mt-1  bg-light">
                 <group class="col-6"><Strong>Buyer</Strong></group>
                 <group class="col-6 text-right"><Strong>العميل</Strong></group>
@@ -113,7 +186,7 @@
                 <group class="oe_structure"/>
             </group>
             <group class="oe_structure"/>
-        </template>
+        </template> -->
 
         <template id="einv_sa.inv_lines">
             <group class="row p-1 mt-3 bg-light">
@@ -159,7 +232,7 @@
             <group class="oe_structure"/>
         </template>
 
-        
+
         <template id="einv_sa.inv_total">
             <t t-set="style_table" t-value="'width:100%; margin-top: 16px; border-collapse: collapse;'"/>
             <t t-set="style_th" t-value="'background-color:#f2f2f2; padding: 8px; text-align:left; font-weight:bold; border: 1px solid #ddd;'"/>
