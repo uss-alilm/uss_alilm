@@ -53,10 +53,16 @@
                 </table>
 
                 <div class="text-center mt-2">
+
                     <img t-if="doc.einv_sa_qr_code_str"
                         t-att-src="'data:image/png;base64,%s' % doc.einv_sa_qr_code_str"
                         alt="QR Code"
-                        style="max-width: 130px; margin-top: 10px;"/>
+                        style="max-width: 130px;"/>
+
+                    <!-- <img t-if="doc.einv_sa_qr_code_str"
+                        t-att-src="'data:image/png;base64,%s' % doc.einv_sa_qr_code_str"
+                        alt="QR Code"
+                        style="max-width: 130px; margin-top: 10px;"/> -->
                 </div>
             </div>
         </template>

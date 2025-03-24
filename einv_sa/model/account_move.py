@@ -29,28 +29,53 @@ class AccountMove(models.Model):
     def _compute_einv_show_delivery_date(self):
         for move in self:
             move.einv_sa_show_delivery_date = move.country_code == 'SA' and move.move_type in ('out_invoice', 'out_refund')
-
     @api.depends('amount_total', 'amount_untaxed', 'einv_sa_confirmation_datetime', 'company_id', 'company_id.vat')
     def _compute_eniv_qr_code_str(self):
+        def get_qr_encoding(tag, field):
+            field_bytes = field.encode('UTF-8')
+            return (
+                tag.to_bytes(length=1, byteorder='big') +
+                len(field_bytes).to_bytes(length=1, byteorder='big') +
+                field_bytes
+            )
+
         for record in self:
+            record.einv_sa_qr_code_str = ''  # default to empty if not valid
             if record.einv_sa_confirmation_datetime and record.company_id.vat:
+                seller_name_enc = get_qr_encoding(1, record.company_id.display_name or '')
+                company_vat_enc = get_qr_encoding(2, record.company_id.vat or '')
                 timestamp = fields.Datetime.context_timestamp(
-                    record.with_context(tz='Asia/Riyadh'), record.einv_sa_confirmation_datetime).isoformat()
+                    self.with_context(tz='Asia/Riyadh'), record.einv_sa_confirmation_datetime
+                )
+                timestamp_enc = get_qr_encoding(3, timestamp.isoformat())
+                invoice_total_enc = get_qr_encoding(4, str(record.amount_total))
+                total_vat_enc = get_qr_encoding(5, str(record.currency_id.round(
+                    record.amount_total - record.amount_untaxed)))
 
-                tlv = b"".join([
-                    generate_tlv(1, record.company_id.display_name),
-                    generate_tlv(2, record.company_id.vat),
-                    generate_tlv(3, timestamp),
-                    generate_tlv(4, str(record.amount_total)),
-                    generate_tlv(5, str(record.currency_id.round(record.amount_total - record.amount_untaxed)))
-                ])
+                str_to_encode = seller_name_enc + company_vat_enc + timestamp_enc + invoice_total_enc + total_vat_enc
+                record.einv_sa_qr_code_str = base64.b64encode(str_to_encode).decode('UTF-8')
 
-                qr_img = qrcode.make(base64.b64encode(tlv).decode('utf-8'))
-                buffer = BytesIO()
-                qr_img.save(buffer, format="PNG")
-                record.einv_sa_qr_code_str = base64.b64encode(buffer.getvalue()).decode()
-            else:
-                record.einv_sa_qr_code_str = False
+    # @api.depends('amount_total', 'amount_untaxed', 'einv_sa_confirmation_datetime', 'company_id', 'company_id.vat')
+    # def _compute_eniv_qr_code_str(self):
+    #     for record in self:
+    #         if record.einv_sa_confirmation_datetime and record.company_id.vat:
+    #             timestamp = fields.Datetime.context_timestamp(
+    #                 record.with_context(tz='Asia/Riyadh'), record.einv_sa_confirmation_datetime).isoformat()
+
+    #             tlv = b"".join([
+    #                 generate_tlv(1, record.company_id.display_name),
+    #                 generate_tlv(2, record.company_id.vat),
+    #                 generate_tlv(3, timestamp),
+    #                 generate_tlv(4, str(record.amount_total)),
+    #                 generate_tlv(5, str(record.currency_id.round(record.amount_total - record.amount_untaxed)))
+    #             ])
+
+    #             qr_img = qrcode.make(base64.b64encode(tlv).decode('utf-8'))
+    #             buffer = BytesIO()
+    #             qr_img.save(buffer, format="PNG")
+    #             record.einv_sa_qr_code_str = base64.b64encode(buffer.getvalue()).decode()
+    #         else:
+    #             record.einv_sa_qr_code_str = False
 
     @api.depends('invoice_line_ids', 'amount_total')
     def _compute_total(self):
