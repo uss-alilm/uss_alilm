@@ -13,6 +13,63 @@
             <field name="binding_type">report</field>
         </record>
 
+        <template id="einv_sa.inv_header">
+            <t t-set="style_table" t-value="'width:100%; margin: 8px 0; border-collapse: collapse;'"/>
+            <t t-set="style_th" t-value="'background-color:#f2f2f2; padding: 6px; font-weight:bold; border: 1px solid #ddd; text-align:center;'"/>
+            <t t-set="style_td" t-value="'padding: 6px; border: 1px solid #ddd; text-align:center; font-size: 12px;'"/>
+
+            <div style="page-break-inside: avoid;">
+                <h3 class="text-center mb-2" style="font-size: 1.2rem;">
+                    Tax Invoice - فاتورة ضريبية
+                    <span t-if="doc.move_type=='out_refund'"> - Credit Note إشعار دائن</span>
+                    <span t-if="doc.move_type=='in_refund'"> - Debit Note إشعار مدين</span>
+                </h3>
+
+                <div style="display: flex; justify-content: space-between;">
+                    <!-- LEFT: Invoice details -->
+                    <div style="width: 70%;">
+                        <table t-att-style="style_table">
+                            <thead>
+                                <tr>
+                                    <th t-att-style="style_th">Field</th>
+                                    <th t-att-style="style_th">Value</th>
+                                    <th t-att-style="style_th">الحقل</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td t-att-style="style_td">Invoice Number</td>
+                                    <td t-att-style="style_td"><span t-field="doc.name"/></td>
+                                    <td t-att-style="style_td">رقم الفاتورة</td>
+                                </tr>
+                                <tr>
+                                    <td t-att-style="style_td">Invoice Date</td>
+                                    <td t-att-style="style_td"><span t-field="doc.invoice_date"/></td>
+                                    <td t-att-style="style_td">تاريخ الفاتورة</td>
+                                </tr>
+                                <tr>
+                                    <td t-att-style="style_td">Date of Supply</td>
+                                    <td t-att-style="style_td"><span t-field="doc.einv_sa_delivery_date"/></td>
+                                    <td t-att-style="style_td">تاريخ التوريد</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- RIGHT: QR Code -->
+                    <div style="width: 25%; text-align: center;">
+                        <img t-if="doc.einv_sa_qr_code_str"
+                            t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=130&amp;height=130' % doc.einv_sa_qr_code_str"
+                            alt="QR Code"
+                            style="margin-top: 8px; max-width: 130px;"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="oe_structure"/>
+        </template>
+
+<!-- 
 
         <template id="einv_sa.inv_header">
             <t t-set="style_table" t-value="'width:100%; margin: 8px 0; border-collapse: collapse;'"/>
@@ -55,8 +112,8 @@
                         </tbody>
                     </table>
                 </div>
-                    <div class="col-3" >
-                <!-- <div class="text-center mt-2" style="margin-top: 12px;"> -->
+                <div class="col-3" >
+                <!- - <div class="text-center mt-2" style="margin-top: 12px;"> - ->
                     <img t-if="doc.einv_sa_qr_code_str"
                         t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=130&amp;height=130' % doc.einv_sa_qr_code_str"
                         alt="QR Code"
@@ -65,7 +122,7 @@
             </div>
             <div class="oe_structure"/>
 
-        </template>
+        </template> -->
 
         <!-- <template id="einv_sa.inv_header">
             <group class="row p-1 my-2 border-bottom bg-light">
