@@ -225,42 +225,42 @@
             <t t-set="style_td" t-value="'padding: 6px; text-align:center; border: 1px solid #ddd;'"/>
 
             <div style="page-break-inside: avoid;">
-                <h4 class="text-center mb-2">👤 Buyer Information / بيانات العميل</h4>
+                <h4 class="text-center mb-2"> بيانات العميلBuyer Information / </h4>
 
                 <table t-att-style="style_table">
                     <thead>
                     </thead>
                     <tbody>
                         <tr>
-                            <td t-att-style="style_td">Name</td>
-                            <td t-att-style="style_td"><span t-field="doc.partner_id.name"/></td>
                             <td t-att-style="style_td">الاسم</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.name"/></td>
+                            <td t-att-style="style_td">Name</td>
 
                         </tr>
                         <tr>
-                            <td t-att-style="style_td">Building No</td>
-                            <td t-att-style="style_td"><span t-field="doc.partner_id.building_no"/></td>
                             <td t-att-style="style_td">رقم المبني</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.building_no"/></td>
+                            <td t-att-style="style_td">Building No</td>
                         </tr>
                         <tr>
-                            <td t-att-style="style_td">Street</td>
-                            <td t-att-style="style_td"><span t-field="doc.partner_id.street"/></td>
                             <td t-att-style="style_td">اسم الشارع</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.street"/></td>
+                            <td t-att-style="style_td">Street</td>
                         </tr>
                         <tr>
-                            <td t-att-style="style_td">District</td>
-                            <td t-att-style="style_td"><span t-field="doc.partner_id.district"/></td>
                             <td t-att-style="style_td">الحي</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.district"/></td>
+                            <td t-att-style="style_td">District</td>
                         </tr>
                         <tr>
-                            <td t-att-style="style_td">City</td>
-                            <td t-att-style="style_td"><span t-field="doc.partner_id.city"/></td>
                             <td t-att-style="style_td">المدينة</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.city"/></td>
+                            <td t-att-style="style_td">City</td>
                         </tr>
                         <tr>
-                            <td t-att-style="style_td">Country</td>
-                            <td t-att-style="style_td"><span t-field="doc.partner_id.country_id.name"/></td>
                             <td t-att-style="style_td">البلد</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.country_id.name"/></td>
+                            <td t-att-style="style_td">Country</td>
                         </tr>
                         <!-- <tr>
                             <td t-att-style="style_td">Postal Code</td>
@@ -273,9 +273,9 @@
                             <td t-att-style="style_td"><span t-field="doc.partner_id.additional_no"/></td>
                         </tr> -->
                         <tr>
-                            <td t-att-style="style_td">VAT Number</td>
-                            <td t-att-style="style_td"><span t-field="doc.partner_id.vat"/></td>
                             <td t-att-style="style_td">الرقم الضريبي</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.vat"/></td>
+                            <td t-att-style="style_td">VAT Number</td>
                         </tr>
                         <!-- <tr>
                             <td t-att-style="style_td">Other ID</td>
@@ -407,35 +407,35 @@
                     <thead>
                         <tr>
                             <th t-att-style="style_th">الوصف</th>
-                            <th t-att-style="style_th">Amount / المبلغ</th>
                             <th t-att-style="style_th">Description</th>
+                            <th t-att-style="style_th">Amount / المبلغ</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td t-att-style="style_td">الإجمالي غير شامل ضريبة القيمة المضافة</td>
-                            <td t-att-style="style_td"><span t-field="doc.einv_amount_sale_total"/></td>
                             <td t-att-style="style_td">Total (Excluding VAT)</td>
+                            <td t-att-style="style_td"><span t-field="doc.einv_amount_sale_total"/></td>
                         </tr>
                         <tr>
                             <td t-att-style="style_td">إجمالي الخصومات</td>
-                            <td t-att-style="style_td"><span t-field="doc.einv_amount_discount_total"/></td>
                             <td t-att-style="style_td">Discount</td>
+                            <td t-att-style="style_td"><span t-field="doc.einv_amount_discount_total"/></td>
                         </tr>
                         <tr>
                             <td t-att-style="style_td">الإجمالي الخاضع للضريبة غير شامل الضريبة</td>
-                            <td t-att-style="style_td"><span t-field="doc.amount_untaxed"/></td>
                             <td t-att-style="style_td">Total Taxable Amount (Excl. VAT)</td>
+                            <td t-att-style="style_td"><span t-field="doc.amount_untaxed"/></td>
                         </tr>
                         <tr>
                             <td t-att-style="style_td">إجمالي الضريبة المضافة</td>
-                            <td t-att-style="style_td"><span t-field="doc.amount_tax_signed"/></td>
                             <td t-att-style="style_td">Total VAT</td>
+                            <td t-att-style="style_td"><span t-field="doc.amount_tax_signed"/></td>
                         </tr>
                         <tr>
                             <td t-att-style="style_td"><strong>الإجمالي المستحق</strong></td>
-                            <td t-att-style="style_td"><strong><span t-field="doc.amount_total"/></strong></td>
                             <td t-att-style="style_td"><strong>Total Amount Due</strong></td>
+                            <td t-att-style="style_td"><strong><span t-field="doc.amount_total"/></strong></td>
                         </tr>
                     </tbody>
                 </table>
