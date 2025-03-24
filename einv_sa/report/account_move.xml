@@ -353,8 +353,8 @@
 
         <template id="einv_sa.inv_lines">
             <group class="row p-1 mt-3 bg-light">
-                <group class="col-6"><Strong>Invoice Lines</Strong></group>
                 <group class="col-6 text-right"><Strong>الاصناف</Strong></group>
+                <group class="col-6"><Strong>Invoice Lines</Strong></group>
             </group>
             <table class="table table-sm o_main_table " name="invoice_line_ids_table">
                 <thead class="bg-light text-center">
@@ -402,7 +402,7 @@
             <t t-set="style_td" t-value="'padding: 8px; text-align:center; border: 1px solid #ddd;'"/>
 
             <div style="page-break-inside: avoid;">
-                <h4 class="text-center mb-2">💰 ملخص الإجمالي   /   Total Summary  </h4>
+                <h4 class="text-center mb-2">  ملخص الإجمالي   /   Total Summary  </h4>
                 <table t-att-style="style_table">
                     <!-- <thead>
                         <tr>
