@@ -159,13 +159,63 @@
             <group class="oe_structure"/>
         </template>
 
+        
+        <template id="einv_sa.inv_total">
+            <t t-set="style_table" t-value="'width:100%; margin-top: 16px; border-collapse: collapse;'"/>
+            <t t-set="style_th" t-value="'background-color:#f2f2f2; padding: 8px; text-align:left; font-weight:bold; border: 1px solid #ddd;'"/>
+            <t t-set="style_td" t-value="'padding: 8px; text-align:center; border: 1px solid #ddd;'"/>
 
+            <div style="page-break-inside: avoid;">
+                <h4 class="text-center mb-2">💰 Total Summary / ملخص الإجمالي</h4>
+                <table t-att-style="style_table">
+                    <thead>
+                        <tr>
+                            <th t-att-style="style_th">Description</th>
+                            <th t-att-style="style_th">الوصف</th>
+                            <th t-att-style="style_th">Amount / المبلغ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td t-att-style="style_td">Total (Excluding VAT)</td>
+                            <td t-att-style="style_td">الإجمالي غير شامل ضريبة القيمة المضافة</td>
+                            <td t-att-style="style_td"><span t-field="doc.einv_amount_sale_total"/></td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td">Discount</td>
+                            <td t-att-style="style_td">إجمالي الخصومات</td>
+                            <td t-att-style="style_td"><span t-field="doc.einv_amount_discount_total"/></td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td">Total Taxable Amount (Excl. VAT)</td>
+                            <td t-att-style="style_td">الإجمالي الخاضع للضريبة غير شامل الضريبة</td>
+                            <td t-att-style="style_td"><span t-field="doc.amount_untaxed"/></td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td">Total VAT</td>
+                            <td t-att-style="style_td">إجمالي الضريبة المضافة</td>
+                            <td t-att-style="style_td"><span t-field="doc.amount_tax_signed"/></td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td"><strong>Total Amount Due</strong></td>
+                            <td t-att-style="style_td"><strong>الإجمالي المستحق</strong></td>
+                            <td t-att-style="style_td"><strong><span t-field="doc.amount_total"/></strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+
+
+
+<!-- 
         <template id="einv_sa.inv_total">
             <group style="page-break-inside: avoid;">
                 <group class="row p-1 mt-1 bg-light">
                     <group class="col-6"><Strong>Total Amount: </Strong></group>
                     <group class="col-6 text-right"><Strong>:الاجمالي</Strong></group>
                 </group>
+
                 <group class="row">
                     <group class="col-2"></group>
                     <group class="col-10">
@@ -200,9 +250,10 @@
 
                 </group>
             </group>
+
             <group class="oe_structure"/>
 
-        </template>
+        </template> -->
 
         <!-- main document template -->
         <template id="einv_sa.account_move_report_document">
