@@ -238,29 +238,13 @@
 
                         </tr>
                         <tr>
-                            <td t-att-style="style_td">رقم المبني</td>
+                            <td t-att-style="style_td"> العنوان</td>
                             <td t-att-style="style_td"><span t-field="doc.partner_id.building_no"/></td>
-                            <td t-att-style="style_td">Building No</td>
-                        </tr>
-                        <tr>
-                            <td t-att-style="style_td">اسم الشارع</td>
-                            <td t-att-style="style_td"><span t-field="doc.partner_id.street"/></td>
-                            <td t-att-style="style_td">Street</td>
-                        </tr>
-                        <tr>
-                            <td t-att-style="style_td">الحي</td>
-                            <td t-att-style="style_td"><span t-field="doc.partner_id.district"/></td>
-                            <td t-att-style="style_td">District</td>
-                        </tr>
-                        <tr>
-                            <td t-att-style="style_td">المدينة</td>
-                            <td t-att-style="style_td"><span t-field="doc.partner_id.city"/></td>
-                            <td t-att-style="style_td">City</td>
-                        </tr>
-                        <tr>
-                            <td t-att-style="style_td">البلد</td>
-                            <td t-att-style="style_td"><span t-field="doc.partner_id.country_id.name"/></td>
-                            <td t-att-style="style_td">Country</td>
+                             <td t-att-style="style_td"><span t-field="doc.partner_id.street"/> - 
+                            <span t-field="doc.partner_id.district"/> - 
+                            <span t-field="doc.partner_id.city"/> - 
+                            <span t-field="doc.partner_id.country_id.name"/></td>
+                            <td t-att-style="style_td">Address </td>
                         </tr>
                         <!-- <tr>
                             <td t-att-style="style_td">Postal Code</td>
