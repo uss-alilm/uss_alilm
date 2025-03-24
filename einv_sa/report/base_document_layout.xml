@@ -4,24 +4,24 @@
         <!-- report qweb view -->
         <!--         <span t-field="company.report_footer"/>-->
         <template id="financial_layout_row">
-            <div class="row">
-                <div class="col-6">
-                    <div class="row  mx-1 border-bottom">
-                        <div class="col-3 px-0 text-left">CR No:</div>
-                        <div class="col-4 px-0 "><span t-field="company.company_registry"></span></div>
-                        <div class="col-5 px-0  text-right">:رقم سجل الشركة</div>
-                    </div>
+            <group class="row">
+                <group class="col-6">
+                    <group class="row  mx-1 border-bottom">
+                        <group class="col-3 px-0 text-left">CR No:</group>
+                        <group class="col-4 px-0 "><span t-field="company.company_registry"></span></group>
+                        <group class="col-5 px-0  text-right">:رقم سجل الشركة</group>
+                    </group>
 
-                </div>
+                </group>
 
-                <div class="col-6">
-                    <div class="row  mx-1 border-bottom">
-                        <div class="col-4 px-0  text-left">Vat No:</div>
-                        <div class="col-4 px-0 "><span t-field="company.vat"></span></div>
-                        <div class="col-4 px-0  text-right">:الرقم الضريبي</div>
-                    </div>
-                </div>
-            </div>
+                <group class="col-6">
+                    <group class="row  mx-1 border-bottom">
+                        <group class="col-4 px-0  text-left">Vat No:</group>
+                        <group class="col-4 px-0 "><span t-field="company.vat"></span></group>
+                        <group class="col-4 px-0  text-right">:الرقم الضريبي</group>
+                    </group>
+                </group>
+            </group>
 
 
         </template>
@@ -48,9 +48,9 @@
 
         <template id="einv_external_layout_standard"
                   inherit_id="web.external_layout_standard">
-            <xpath expr="//div[contains(@t-attf-class,'footer')]/div/ul" position="before">
-                <div t-call="einv_sa.financial_layout_row">
-                </div>
+            <xpath expr="//group[contains(@t-attf-class,'footer')]/group/ul" position="before">
+                <group t-call="einv_sa.financial_layout_row">
+                </group>
 
             </xpath>
             <!--            <xpath expr="//li[@t-if='company.vat']" position="replace">-->
@@ -60,9 +60,9 @@
 
         <template id="einv_external_layout_boxed"
                   inherit_id="web.external_layout_boxed">
-            <xpath expr="//div[contains(@t-attf-class,'footer')]/div" position="before">
-                <div t-call="einv_sa.financial_layout_row">
-                </div>
+            <xpath expr="//group[contains(@t-attf-class,'footer')]/group" position="before">
+                <group t-call="einv_sa.financial_layout_row">
+                </group>
 
             </xpath>
             <!--            <xpath expr="//li[@t-if='company.vat']" position="replace">-->
@@ -72,9 +72,9 @@
 
         <template id="einv_external_layout_bold"
                   inherit_id="web.external_layout_bold">
-            <xpath expr="//div[contains(@t-attf-class,'footer')]/div" position="before">
-                <div t-call="einv_sa.financial_layout_row">
-                </div>
+            <xpath expr="//group[contains(@t-attf-class,'footer')]/group" position="before">
+                <group t-call="einv_sa.financial_layout_row">
+                </group>
 
             </xpath>
 
@@ -82,9 +82,9 @@
 
         <template id="einv_external_layout_striped"
                   inherit_id="web.external_layout_striped">
-            <xpath expr="//div[contains(@t-attf-class,'footer')]/div/ul/div" position="before">
-                <div t-call="einv_sa.financial_layout_row">
-                </div>
+            <xpath expr="//group[contains(@t-attf-class,'footer')]/group/ul/group" position="before">
+                <group t-call="einv_sa.financial_layout_row">
+                </group>
 
             </xpath>
 
