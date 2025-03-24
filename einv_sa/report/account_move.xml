@@ -225,7 +225,7 @@
             <t t-set="style_td" t-value="'padding: 6px; text-align:center; border: 1px solid #ddd;'"/>
 
             <div style="page-break-inside: avoid;">
-                <h4 class="text-center mb-2"> بيانات العميلBuyer Information / </h4>
+                <h4 class="text-center mb-2"> بيانات العميل  / Buyer Information   </h4>
 
                 <table t-att-style="style_table">
                     <thead>
@@ -402,15 +402,15 @@
             <t t-set="style_td" t-value="'padding: 8px; text-align:center; border: 1px solid #ddd;'"/>
 
             <div style="page-break-inside: avoid;">
-                <h4 class="text-center mb-2">💰 Total Summary / ملخص الإجمالي</h4>
+                <h4 class="text-center mb-2">💰 ملخص الإجمالي   /   Total Summary  </h4>
                 <table t-att-style="style_table">
-                    <thead>
+                    <!-- <thead>
                         <tr>
                             <th t-att-style="style_th">الوصف</th>
                             <th t-att-style="style_th">Description</th>
                             <th t-att-style="style_th">Amount / المبلغ</th>
                         </tr>
-                    </thead>
+                    </thead> -->
                     <tbody>
                         <tr>
                             <td t-att-style="style_td">الإجمالي غير شامل ضريبة القيمة المضافة</td>
