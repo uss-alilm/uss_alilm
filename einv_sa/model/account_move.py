@@ -83,7 +83,9 @@ class AccountMove(models.Model):
 
                 str_to_encode = seller_name_enc + company_vat_enc + timestamp_enc + invoice_total_enc + total_vat_enc
                 qr_code_str = base64.b64encode(str_to_encode).decode('UTF-8')
-            record.einv_sa_qr_code_str = qr_code_str
+            # record.einv_sa_qr_code_str = qr_code_str
+            record.einv_sa_qr_code_str = base64.b64encode(str_to_encode).decode('UTF-8')
+
 
     def _post(self, soft=True):
         res = super()._post(soft)

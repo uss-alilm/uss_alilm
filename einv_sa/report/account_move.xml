@@ -59,9 +59,14 @@
                     <!-- RIGHT: QR Code -->
                     <div style="width: 25%; text-align: center;">
                         <img t-if="doc.einv_sa_qr_code_str"
+                            t-att-src="'data:image/png;base64,%s' % doc.einv_sa_qr_code_str"
+                            alt="QR Code"
+                            style="max-width: 130px;"/>
+
+                        <!-- <img t-if="doc.einv_sa_qr_code_str"
                             t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=130&amp;height=130' % doc.einv_sa_qr_code_str"
                             alt="QR Code"
-                            style="margin-top: 8px; max-width: 130px;"/>
+                            style="margin-top: 8px; max-width: 130px;"/> -->
                     </div>
                 </div>
             </div>
