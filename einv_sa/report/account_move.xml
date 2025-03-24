@@ -13,7 +13,56 @@
             <field name="binding_type">report</field>
         </record>
 
+
         <template id="einv_sa.inv_header">
+            <t t-set="style_table" t-value="'width:100%; margin: 8px 0; border-collapse: collapse;'"/>
+            <t t-set="style_th" t-value="'background-color:#f2f2f2; padding: 6px; font-weight:bold; border: 1px solid #ddd; text-align:center;'"/>
+            <t t-set="style_td" t-value="'padding: 6px; border: 1px solid #ddd; text-align:center;'"/>
+
+            <div style="page-break-inside: avoid;">
+                <h3 class="text-center mb-2">
+                    Tax Invoice - فاتورة ضريبية
+                    <span t-if="doc.move_type=='out_refund'"> - Credit Note إشعار دائن</span>
+                    <span t-if="doc.move_type=='in_refund'"> - Debit Note إشعار مدين</span>
+                </h3>
+
+                <table t-att-style="style_table">
+                    <thead>
+                        <tr>
+                            <th t-att-style="style_th">Field</th>
+                            <th t-att-style="style_th">القيمة</th>
+                            <th t-att-style="style_th">الحقل</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td t-att-style="style_td">Invoice Number</td>
+                            <td t-att-style="style_td"><span t-field="doc.name"/></td>
+                            <td t-att-style="style_td">رقم الفاتورة</td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td">Invoice Date</td>
+                            <td t-att-style="style_td"><span t-field="doc.invoice_date"/></td>
+                            <td t-att-style="style_td">تاريخ الفاتورة</td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td">Date of Supply</td>
+                            <td t-att-style="style_td"><span t-field="doc.einv_sa_delivery_date"/></td>
+                            <td t-att-style="style_td">تاريخ التوريد</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="text-center mt-2" style="margin-top: 12px;">
+                    <img t-if="doc.einv_sa_qr_code_str"
+                        t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=130&amp;height=130' % doc.einv_sa_qr_code_str"
+                        alt="QR Code"
+                        style="display: inline-block; margin-top: 10px;"/>
+                </div>
+            </div>
+        </template>
+
+        <!-- <template id="einv_sa.inv_header">
             <group class="row p-1 my-2 border-bottom bg-light">
                 <group class="col-12 text-center" style="font-size:1.2rem;">
                     <Strong>Tax Invoice فاتورة ضريبية</Strong>
@@ -40,89 +89,91 @@
                     </group>
                 </group>
                 <group class="col-3" >
-<!--                    <span t-esc="doc.einv_sa_qr_code_str"></span>-->
                     <img t-if="doc.einv_sa_qr_code_str"
                          style="display:block;"
                          t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', doc.einv_sa_qr_code_str, 130, 130)"/>
-<!--                      <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', doc.einv_sa_qr_code_str, 130, 130)"   class="float-right my-1"/>-->
+
 
 
                 </group>
             </group>
             <group class="oe_structure"/>
-        </template>
+        </template> -->
+        
+        <!--                      <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', doc.einv_sa_qr_code_str, 130, 130)"   class="float-right my-1"/>-->
+        <!--                    <span t-esc="doc.einv_sa_qr_code_str"></span>-->
 
         <template id="einv_sa.partner_info">
-    <t t-set="style_table" t-value="'width:100%; margin-top: 16px; border-collapse: collapse;'"/>
-    <t t-set="style_th" t-value="'background-color:#f2f2f2; padding: 6px; text-align:left; font-weight:bold; border: 1px solid #ddd;'"/>
-    <t t-set="style_td" t-value="'padding: 6px; text-align:center; border: 1px solid #ddd;'"/>
+            <t t-set="style_table" t-value="'width:100%; margin-top: 16px; border-collapse: collapse;'"/>
+            <t t-set="style_th" t-value="'background-color:#f2f2f2; padding: 6px; text-align:left; font-weight:bold; border: 1px solid #ddd;'"/>
+            <t t-set="style_td" t-value="'padding: 6px; text-align:center; border: 1px solid #ddd;'"/>
 
-    <div style="page-break-inside: avoid;">
-        <h4 class="text-center mb-2">👤 Buyer Information / بيانات العميل</h4>
+            <div style="page-break-inside: avoid;">
+                <h4 class="text-center mb-2">👤 Buyer Information / بيانات العميل</h4>
 
-        <table t-att-style="style_table">
-            <thead>
-                <tr>
-                    <th t-att-style="style_th">Field</th>
-                    <th t-att-style="style_th">الحقل</th>
-                    <th t-att-style="style_th">Value / القيمة</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td t-att-style="style_td">Name</td>
-                    <td t-att-style="style_td">الاسم</td>
-                    <td t-att-style="style_td"><span t-field="doc.partner_id.name"/></td>
-                </tr>
-                <tr>
-                    <td t-att-style="style_td">Building No</td>
-                    <td t-att-style="style_td">رقم المبني</td>
-                    <td t-att-style="style_td"><span t-field="doc.partner_id.building_no"/></td>
-                </tr>
-                <tr>
-                    <td t-att-style="style_td">Street</td>
-                    <td t-att-style="style_td">اسم الشارع</td>
-                    <td t-att-style="style_td"><span t-field="doc.partner_id.street"/></td>
-                </tr>
-                <tr>
-                    <td t-att-style="style_td">District</td>
-                    <td t-att-style="style_td">الحي</td>
-                    <td t-att-style="style_td"><span t-field="doc.partner_id.district"/></td>
-                </tr>
-                <tr>
-                    <td t-att-style="style_td">City</td>
-                    <td t-att-style="style_td">المدينة</td>
-                    <td t-att-style="style_td"><span t-field="doc.partner_id.city"/></td>
-                </tr>
-                <tr>
-                    <td t-att-style="style_td">Country</td>
-                    <td t-att-style="style_td">البلد</td>
-                    <td t-att-style="style_td"><span t-field="doc.partner_id.country_id.name"/></td>
-                </tr>
-                <tr>
-                    <td t-att-style="style_td">Postal Code</td>
-                    <td t-att-style="style_td">الرمز البريدي</td>
-                    <td t-att-style="style_td"><span t-field="doc.partner_id.zip"/></td>
-                </tr>
-                <tr>
-                    <td t-att-style="style_td">Additional No</td>
-                    <td t-att-style="style_td">الرقم الإضافي</td>
-                    <td t-att-style="style_td"><span t-field="doc.partner_id.additional_no"/></td>
-                </tr>
-                <tr>
-                    <td t-att-style="style_td">VAT Number</td>
-                    <td t-att-style="style_td">الرقم الضريبي</td>
-                    <td t-att-style="style_td"><span t-field="doc.partner_id.vat"/></td>
-                </tr>
-                <tr>
-                    <td t-att-style="style_td">Other ID</td>
-                    <td t-att-style="style_td">معرّف آخر</td>
-                    <td t-att-style="style_td"><span t-field="doc.partner_id.other_id"/></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</template>
+                <table t-att-style="style_table">
+                    <thead>
+                        <tr>
+                            <th t-att-style="style_th">Field</th>
+                            <th t-att-style="style_th">الحقل</th>
+                            <th t-att-style="style_th">Value / القيمة</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td t-att-style="style_td">Name</td>
+                            <td t-att-style="style_td">الاسم</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.name"/></td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td">Building No</td>
+                            <td t-att-style="style_td">رقم المبني</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.building_no"/></td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td">Street</td>
+                            <td t-att-style="style_td">اسم الشارع</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.street"/></td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td">District</td>
+                            <td t-att-style="style_td">الحي</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.district"/></td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td">City</td>
+                            <td t-att-style="style_td">المدينة</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.city"/></td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td">Country</td>
+                            <td t-att-style="style_td">البلد</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.country_id.name"/></td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td">Postal Code</td>
+                            <td t-att-style="style_td">الرمز البريدي</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.zip"/></td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td">Additional No</td>
+                            <td t-att-style="style_td">الرقم الإضافي</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.additional_no"/></td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td">VAT Number</td>
+                            <td t-att-style="style_td">الرقم الضريبي</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.vat"/></td>
+                        </tr>
+                        <tr>
+                            <td t-att-style="style_td">Other ID</td>
+                            <td t-att-style="style_td">معرّف آخر</td>
+                            <td t-att-style="style_td"><span t-field="doc.partner_id.other_id"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </template>
 
 <!-- 
         <template id="einv_sa.partner_info">
