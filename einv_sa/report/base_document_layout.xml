@@ -48,7 +48,7 @@
 
         <template id="einv_external_layout_standard"
                   inherit_id="web.external_layout_standard">
-            <xpath expr="//group[contains(@t-attf-class,'footer')]/group/ul" position="before">
+            <xpath expr="//div[contains(@t-attf-class,'footer')]div[/divul" position="before">
                 <group t-call="einv_sa.financial_layout_row">
                 </group>
 
@@ -60,7 +60,7 @@
 
         <template id="einv_external_layout_boxed"
                   inherit_id="web.external_layout_boxed">
-            <xpath expr="//group[contains(@t-attf-class,'footer')]/group" position="before">
+            <xpath expr="//div[contains(@t-attf-class,'footer')]/div" position="before">
                 <group t-call="einv_sa.financial_layout_row">
                 </group>
 
@@ -72,7 +72,7 @@
 
         <template id="einv_external_layout_bold"
                   inherit_id="web.external_layout_bold">
-            <xpath expr="//group[contains(@t-attf-class,'footer')]/group" position="before">
+            <xpath expr="//div[contains(@t-attf-class,'footer')]/div" position="before">
                 <group t-call="einv_sa.financial_layout_row">
                 </group>
 
@@ -82,7 +82,7 @@
 
         <template id="einv_external_layout_striped"
                   inherit_id="web.external_layout_striped">
-            <xpath expr="//group[contains(@t-attf-class,'footer')]/group/ul/group" position="before">
+            <xpath expr="//div[contains(@t-attf-class,'footer')]div[/divul/group" position="before">
                 <group t-call="einv_sa.financial_layout_row">
                 </group>
 
