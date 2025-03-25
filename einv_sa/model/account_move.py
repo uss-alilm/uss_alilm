@@ -29,6 +29,7 @@ class AccountMove(models.Model):
     def _compute_einv_show_delivery_date(self):
         for move in self:
             move.einv_sa_show_delivery_date = move.country_code == 'SA' and move.move_type in ('out_invoice', 'out_refund')
+            
     @api.depends('amount_total', 'amount_untaxed', 'einv_sa_confirmation_datetime', 'company_id', 'company_id.vat')
     def _compute_eniv_qr_code_str(self):
         def get_qr_encoding(tag, field):
