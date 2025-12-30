@@ -1,26 +1,7 @@
 # -*- coding: utf-8 -*-
-###############################################################################
-#
-#    Cybrosys Technologies Pvt. Ltd.
-#
-#    Copyright (C) 2024-TODAY Cybrosys Technologies(<https://www.cybrosys.com>).
-#    Author: Gayathri V(odoo@cybrosys.com)
-#
-#    You can modify it under the terms of the GNU AFFERO
-#    GENERAL PUBLIC LICENSE (AGPL v3), Version 3.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU AFFERO GENERAL PUBLIC LICENSE (AGPL v3) for more details.
-#
-#    You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE
-#    (AGPL v3) along with this program.
-#    If not, see <http://www.gnu.org/licenses/>.
-
-###############################################################################
 from io import BytesIO
 import binascii
+import base64
 import pytz
 
 from odoo import api, fields, models, _
@@ -31,223 +12,202 @@ try:
     import qrcode
 except ImportError:
     qrcode = None
-try:
-    import base64
-except ImportError:
-    base64 = None
-from odoo import models, fields, api
-import base64
+
 
 def _tlv(tag, value):
     if value is None:
         value = ""
     if not isinstance(value, str):
         value = str(value)
-    b = value.encode('utf-8')
+    b = value.encode("utf-8")
     return bytes([tag, len(b)]) + b
 
 
-
 class AccountMoveLine(models.Model):
-    _name = "account.move.line"
     _inherit = "account.move.line"
-    einv_amount_discount = fields.Monetary(string="Amount discount", compute="_compute_amount_discount", store='True',
-                                           help="")
-    einv_amount_tax = fields.Monetary(string="Amount tax", compute="_compute_amount_tax", store='True', help="")
 
-    @api.depends('discount', 'quantity', 'price_unit')
+    einv_amount_discount = fields.Monetary(
+        string="Amount discount",
+        compute="_compute_amount_discount",
+        store=True,
+    )
+    einv_amount_tax = fields.Monetary(
+        string="Amount tax",
+        compute="_compute_amount_tax",
+        store=True,
+    )
+
+    @api.depends("discount", "quantity", "price_unit")
     def _compute_amount_discount(self):
         for r in self:
-            r.einv_amount_discount = r.quantity * r.price_unit * (r.discount / 100)
+            r.einv_amount_discount = r.quantity * r.price_unit * (r.discount / 100.0)
 
-    @api.depends('tax_ids', 'discount', 'quantity', 'price_unit')
+    @api.depends("tax_ids", "discount", "quantity", "price_unit", "price_subtotal")
     def _compute_amount_tax(self):
         for r in self:
-            r.einv_amount_tax = sum(r.price_subtotal * (tax.amount / 100) for tax in r.tax_ids)
+            r.einv_amount_tax = sum(r.price_subtotal * (tax.amount / 100.0) for tax in r.tax_ids)
 
-    
+
 class AccountMove(models.Model):
-    """Class for adding new button and a page in account move"""
-    _inherit = 'account.move'
+    _inherit = "account.move"
 
-    qr = fields.Binary(string="QR Code", compute='generate_qrcode', store=True,
-                       help="QR code")
-    qr_button = fields.Boolean(string="Qr Button", compute="_compute_qr",
-                               help="Is QR button is enable or not")
-    qr_page = fields.Boolean(string="Qr Page", compute="_compute_qr",
-                             help="Is QR page is enable or not")
+    qr = fields.Binary(string="QR Code", compute="generate_qrcode", store=True, help="QR code")
+    qr_button = fields.Boolean(string="Qr Button", compute="_compute_qr")
+    qr_page = fields.Boolean(string="Qr Page", compute="_compute_qr")
 
-    # ... other methods, including hexa and timezone ...
-    einv_amount_sale_total = fields.Monetary(string="Amount sale total", compute="_compute_total", store='True',
-                                             help="")
-    einv_amount_discount_total = fields.Monetary(string="Amount discount total", compute="_compute_total", store='True',
-                                                 help="")
-    einv_amount_tax_total = fields.Monetary(string="Amount tax total", compute="_compute_total", store='True', help="")
-    
-    @api.depends('invoice_line_ids', 'amount_total')
+    einv_amount_sale_total = fields.Monetary(string="Amount sale total", compute="_compute_total", store=True)
+    einv_amount_discount_total = fields.Monetary(string="Amount discount total", compute="_compute_total", store=True)
+    einv_amount_tax_total = fields.Monetary(string="Amount tax total", compute="_compute_total", store=True)
+
+    x_zatca_qr_str = fields.Char(compute="_compute_zatca_qr_str", store=False)
+
+    @api.depends("invoice_line_ids", "amount_total", "amount_untaxed")
     def _compute_total(self):
         for r in self:
             r.einv_amount_sale_total = r.amount_untaxed + sum(line.einv_amount_discount for line in r.invoice_line_ids)
             r.einv_amount_discount_total = sum(line.einv_amount_discount for line in r.invoice_line_ids)
             r.einv_amount_tax_total = sum(line.einv_amount_tax for line in r.invoice_line_ids)
 
-    
-    @api.depends('qr_button')
-    def _compute_qr(self):
-        """Compute function for checking the value of a field in settings"""
-        for record in self:
-            qr_code = self.env['ir.config_parameter'].sudo().get_param(
-                'advanced_vat_invoice.is_qr')
-            qr_code_generate_method = self.env[
-                'ir.config_parameter'].sudo().get_param(
-                'advanced_vat_invoice.generate_qr')
-            record.qr_button = True if qr_code and qr_code_generate_method == 'manually' else False
-            record.qr_page = True if (qr_code and record.state in ['posted',
-                                                                   'cancelled']
-                                      and qr_code_generate_method == 'manually'
-                                      or qr_code_generate_method == 'automatically') \
-                else False
-
     def timezone(self, userdate):
-        """Function to convert a user's date to their timezone."""
-        tz_name = self.env.context.get('tz') or self.env.user.tz
+        tz_name = self.env.context.get("tz") or self.env.user.tz or "UTC"
         contex_tz = pytz.timezone(tz_name)
         date_time = pytz.utc.localize(userdate).astimezone(contex_tz)
         return date_time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
 
     def string_hexa(self, value):
-        """Convert a string to a hexadecimal representation."""
         if value:
-            string = str(value)
-            string_bytes = string.encode("UTF-8")
-            encoded_hex_value = binascii.hexlify(string_bytes)
-            hex_value = encoded_hex_value.decode("UTF-8")
-            return hex_value
+            string_bytes = str(value).encode("UTF-8")
+            return binascii.hexlify(string_bytes).decode("UTF-8")
+        return ""
 
     def hexa(self, tag, length, value):
-        """Generate a hex value with tag, length, and value."""
         if tag and length and value:
             hex_string = self.string_hexa(value)
             length = int(len(hex_string) / 2)
-            conversion_table = ['0', '1', '2', '3', '4', '5', '6', '7', '8',
-                                '9', 'a', 'b', 'c', 'd', 'e', 'f']
-            hexadecimal = ''
-            while (length > 0):
+            conversion_table = list("0123456789abcdef")
+            hexadecimal = ""
+            while length > 0:
                 remainder = length % 16
                 hexadecimal = conversion_table[remainder] + hexadecimal
                 length = length // 16
             if len(hexadecimal) == 1:
                 hexadecimal = "0" + hexadecimal
             return tag + hexadecimal + hex_string
+        return ""
 
     def qr_code_data(self):
-        """Generate QR code data for the current record."""
-        # Now that we ensure all variables are strings, concatenation should not raise a TypeError
-        # qr_hex = seller_hex + vat_hex + date_hex + total_with_vat_hex
+        """Generate TLV Base64 (ZATCA) using the original hexa method."""
+        self.ensure_one()
 
+        seller_name = str(self.company_id.name or "")
+        seller_vat_no = self.company_id.vat or ""
 
-        seller_name = str(self.company_id.name)
-        seller_vat_no = self.company_id.vat or ''
-        seller_hex = self.hexa("01", "0c", seller_name)
+        seller_hex = self.hexa("01", "0c", seller_name) or ""
         vat_hex = self.hexa("02", "0f", seller_vat_no) or ""
-        create_date = self.invoice_date
-        # time_stamp = self.timezone(self.create_date)#
-        time_stamp = create_date
-        date_hex = self.hexa("03", "14", time_stamp)
-        amount_total = self.currency_id._convert(
-            self.amount_total,
-            self.env.ref('base.SAR'),
-            self.env.company, self.invoice_date or fields.Date.today())
-        total_with_vat_hex = self.hexa("04", "0a",
-                                       str(round(amount_total, 2)))
-        amount_tax = self.currency_id._convert(
-            self.amount_tax,
-            self.env.ref('base.SAR'),
-            self.env.company, self.invoice_date or fields.Date.today())
-        total_vat_hex = self.hexa("05", "09",
-                                  str(round(amount_tax, 2)))
 
-        seller_hex = seller_hex or ''
-        vat_hex = vat_hex or ''
-        date_hex = date_hex or ''
-        total_with_vat_hex = total_with_vat_hex or ''
-        
-        qr_hex = (seller_hex + vat_hex + date_hex + total_with_vat_hex +
-                  total_vat_hex)
-        encoded_base64_bytes = base64.b64encode(bytes.fromhex(qr_hex)).decode()
-        return encoded_base64_bytes
+        time_stamp = (self.invoice_date and str(self.invoice_date) + "T00:00:00Z") or ""
+        date_hex = self.hexa("03", "14", time_stamp) or ""
 
-    @api.depends('state')
-    def generate_qrcode(self):
-        """Generate and save QR code after the invoice is posted."""
-        param = self.env['ir.config_parameter'].sudo()
-        qr_code = param.get_param('advanced_vat_invoice.generate_qr')
-        for rec in self:
-            if rec.state == 'posted':
-                if qrcode and base64:
-                    if qr_code == 'automatically':
-                        qr = qrcode.QRCode(
-                            version=4,
-                            error_correction=qrcode.constants.ERROR_CORRECT_L,
-                            box_size=4,
-                            border=1,
-                        )
-                        qr.add_data(self._origin.qr_code_data())
-                        qr.make(fit=True)
-                        img = qr.make_image()
-                        temp = BytesIO()
-                        img.save(temp, format="PNG")
-                        qr_image = base64.b64encode(temp.getvalue())
-                        rec.qr = qr_image
-                else:
-                    raise UserError(
-                        _('Necessary Requirements To Run This Operation Is '
-                          'Not Satisfied'))
+        # Convert to SAR (if you really need SAR), otherwise keep company currency
+        sar = self.env.ref("base.SAR", raise_if_not_found=False)
+        if sar:
+            amount_total = self.currency_id._convert(
+                self.amount_total, sar, self.env.company, self.invoice_date or fields.Date.today()
+            )
+            amount_tax = self.currency_id._convert(
+                self.amount_tax, sar, self.env.company, self.invoice_date or fields.Date.today()
+            )
+        else:
+            amount_total = self.amount_total
+            amount_tax = self.amount_tax
 
-    def generate_qr_button(self):
-        """Manually generate and save QR code."""
-        param = self.env['ir.config_parameter'].sudo()
-        qr_code = param.get_param('advanced_vat_invoice.generate_qr')
-        for rec in self:
-            if qrcode and base64:
-                if qr_code == 'manually':
-                    qr = qrcode.QRCode(
-                        version=4,
-                        error_correction=qrcode.constants.ERROR_CORRECT_L,
-                        box_size=4,
-                        border=1,
-                    )
-                    qr.add_data(self.qr_code_data())
-                    qr.make(fit=True)
-                    img = qr.make_image()
-                    temp = BytesIO()
-                    img.save(temp, format="PNG")
-                    qr_image = base64.b64encode(temp.getvalue())
-                    rec.qr = qr_image
-            else:
-                raise UserError(
-                    _('Necessary Requirements To Run This Operation Is '
-                      'Not Satisfied'))
+        total_with_vat_hex = self.hexa("04", "0a", str(round(amount_total, 2))) or ""
+        total_vat_hex = self.hexa("05", "09", str(round(amount_tax, 2))) or ""
 
+        qr_hex = seller_hex + vat_hex + date_hex + total_with_vat_hex + total_vat_hex
+        return base64.b64encode(bytes.fromhex(qr_hex)).decode()
 
-
-    x_zatca_qr_str = fields.Char(compute="_compute_zatca_qr_str", store=False)
-
-    @api.depends('company_id.name', 'company_id.vat', 'invoice_date', 'amount_total', 'amount_tax')
+    @api.depends("company_id.name", "company_id.vat", "invoice_date", "create_date", "amount_total", "amount_tax")
     def _compute_zatca_qr_str(self):
         for m in self:
             seller = m.company_id.name or ""
             vat = m.company_id.vat or ""
-            # ISO datetime - لو عندك invoice_date فقط، نستخدمها
-            dt = (m.invoice_date and (str(m.invoice_date) + "T00:00:00Z")) or ""
+
+            if m.invoice_date:
+                dt = str(m.invoice_date) + "T00:00:00Z"
+            else:
+                dt = (m.create_date or fields.Datetime.now()).strftime("%Y-%m-%dT%H:%M:%SZ")
+
             total = "%.2f" % (m.amount_total or 0.0)
             tax = "%.2f" % (m.amount_tax or 0.0)
 
-            tlv = b''.join([
+            tlv = b"".join([
                 _tlv(1, seller),
                 _tlv(2, vat),
                 _tlv(3, dt),
                 _tlv(4, total),
                 _tlv(5, tax),
             ])
-            m.x_zatca_qr_str = base64.b64encode(tlv).decode('utf-8')
+            m.x_zatca_qr_str = base64.b64encode(tlv).decode("utf-8")
+
+    def _get_qr_code(self):
+        """Return TLV Base64 used by /report/barcode QR (works with your QWeb)."""
+        self.ensure_one()
+        return self.x_zatca_qr_str or self.qr_code_data() or ""
+
+    @api.depends("state")
+    def generate_qrcode(self):
+        """Generate and save QR PNG after the invoice is posted (requires python qrcode lib)."""
+        param = self.env["ir.config_parameter"].sudo()
+        qr_code = param.get_param("advanced_vat_invoice.generate_qr")
+
+        for rec in self:
+            if rec.state != "posted":
+                rec.qr = False
+                continue
+
+            if qr_code != "automatically":
+                continue
+
+            if not qrcode:
+                # On Odoo.sh qrcode may not exist; don't crash invoice printing
+                rec.qr = False
+                continue
+
+            qr = qrcode.QRCode(
+                version=4,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=4,
+                border=1,
+            )
+            qr.add_data(rec._get_qr_code())
+            qr.make(fit=True)
+            img = qr.make_image()
+            temp = BytesIO()
+            img.save(temp, format="PNG")
+            rec.qr = base64.b64encode(temp.getvalue())
+
+    def generate_qr_button(self):
+        """Manually generate and save QR PNG."""
+        param = self.env["ir.config_parameter"].sudo()
+        qr_code = param.get_param("advanced_vat_invoice.generate_qr")
+
+        for rec in self:
+            if qr_code != "manually":
+                continue
+
+            if not qrcode:
+                raise UserError(_("Python library 'qrcode' is not installed on this server."))
+
+            qr = qrcode.QRCode(
+                version=4,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=4,
+                border=1,
+            )
+            qr.add_data(rec._get_qr_code())
+            qr.make(fit=True)
+            img = qr.make_image()
+            temp = BytesIO()
+            img.save(temp, format="PNG")
+            rec.qr = base64.b64encode(temp.getvalue())
