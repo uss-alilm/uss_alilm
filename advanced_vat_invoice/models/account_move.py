@@ -35,6 +35,16 @@ try:
     import base64
 except ImportError:
     base64 = None
+from odoo import models, fields, api
+import base64
+
+def _tlv(tag, value):
+    if value is None:
+        value = ""
+    if not isinstance(value, str):
+        value = str(value)
+    b = value.encode('utf-8')
+    return bytes([tag, len(b)]) + b
 
 
 
@@ -55,7 +65,27 @@ class AccountMoveLine(models.Model):
         for r in self:
             r.einv_amount_tax = sum(r.price_subtotal * (tax.amount / 100) for tax in r.tax_ids)
 
+    
+    x_zatca_qr_str = fields.Char(compute="_compute_zatca_qr_str", store=False)
 
+    @api.depends('company_id.name', 'company_id.vat', 'invoice_date', 'amount_total', 'amount_tax')
+    def _compute_zatca_qr_str(self):
+        for m in self:
+            seller = m.company_id.name or ""
+            vat = m.company_id.vat or ""
+            # ISO datetime - لو عندك invoice_date فقط، نستخدمها
+            dt = (m.invoice_date and (str(m.invoice_date) + "T00:00:00Z")) or ""
+            total = "%.2f" % (m.amount_total or 0.0)
+            tax = "%.2f" % (m.amount_tax or 0.0)
+
+            tlv = b''.join([
+                _tlv(1, seller),
+                _tlv(2, vat),
+                _tlv(3, dt),
+                _tlv(4, total),
+                _tlv(5, tax),
+            ])
+            m.x_zatca_qr_str = base64.b64encode(tlv).decode('utf-8')
 
 class AccountMove(models.Model):
     """Class for adding new button and a page in account move"""
