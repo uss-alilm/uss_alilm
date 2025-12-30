@@ -109,5 +109,6 @@ class AccountMove(models.Model):
         # لم نعد نحتاج توليد يدوي
         # لكن نتركها حتى لا يكسر الـ View
         return True
+        
     qr = fields.Binary(string="QR Code", help="(Deprecated) Kept for compatibility with views.")
 
