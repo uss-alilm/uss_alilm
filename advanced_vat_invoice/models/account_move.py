@@ -211,3 +211,29 @@ class AccountMove(models.Model):
             temp = BytesIO()
             img.save(temp, format="PNG")
             rec.qr = base64.b64encode(temp.getvalue())
+
+
+
+    qr = fields.Binary(string="QR", compute="_compute_qr", store=False)
+    qr_str = fields.Char(string="QR String", compute="_compute_qr", store=False)
+
+    @api.depends("company_id.name", "company_id.vat", "invoice_date", "amount_total", "amount_tax")
+    def _compute_qr(self):
+        for m in self:
+            seller = m.company_id.name or ""
+            vat = m.company_id.vat or ""
+            dt = (m.invoice_date and (str(m.invoice_date) + "T00:00:00Z")) or ""
+            total = "%.2f" % (m.amount_total or 0.0)
+            tax = "%.2f" % (m.amount_tax or 0.0)
+
+            tlv = b"".join([
+                _tlv(1, seller),
+                _tlv(2, vat),
+                _tlv(3, dt),
+                _tlv(4, total),
+                _tlv(5, tax),
+            ])
+            m.qr_str = base64.b64encode(tlv).decode("utf-8")
+            # هذا يخزن نفس القيمة في Binary (مفيد لو تستخدم data:image/png;base64 لاحقًا)
+            m.qr = m.qr_str.encode("utf-8")
+            
