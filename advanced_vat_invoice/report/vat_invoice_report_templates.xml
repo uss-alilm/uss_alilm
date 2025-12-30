@@ -157,6 +157,16 @@
                         <div class="col-3"
                              style="margin-top: -8pt; padding-left:30pt;">
 
+
+							<t t-if="doc.company_id.country_id.code == 'SA'">
+							  <t t-set="qr_val" t-value="(getattr(doc, 'qr_code_str', False) or getattr(doc, 'qr_code', False) or getattr(doc, 'qr', False) or '')"/>
+							  <t t-if="qr_val">
+							    <img t-att-src="'/report/barcode/?type=QR&amp;value=%s&amp;width=120&amp;height=120' % qr_val"/>
+							  </t>
+							</t>
+
+							
+						 <!--
 							<t t-if="doc.company_id.country_id.code == 'SA'">
 							  <img t-att-src="'/report/barcode/?type=QR&amp;value=%s&amp;width=120&amp;height=120' % doc._get_qr_code()"/>
 							</t>
@@ -164,7 +174,7 @@
 														
 						 
 							
-                            <!-- 
+                            
 								<img t-attf-src="data:image/png;base64, {{doc.qr}}"/>
 							-->
                         </div>
