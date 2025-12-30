@@ -23,10 +23,10 @@
                 </page>
             </xpath>
             <xpath expr="header" position="inside">
-                <!--<button name="generate_qr_button" string="Generate QR"
+                <button name="generate_qr_button" string="Generate QR"
                         type="object"
                         invisible="qr_button == False or state != 'posted'"/>
-                -->
+                
             </xpath>
         </field>
     </record>
