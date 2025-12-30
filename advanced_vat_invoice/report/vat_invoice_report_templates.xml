@@ -151,8 +151,18 @@
                             </table>
                             <br/>
                         </div>
+
+
+						
                         <div class="col-3"
                              style="margin-top: -8pt; padding-left:30pt;">
+
+							
+						<t t-if="o.company_id.country_id.code == 'SA'">
+						  <img
+						    t-att-src="'/report/barcode/?type=QR&value=%s&width=120&height=120' % o._get_qr_code()"/>
+						</t>
+							
                             <img t-attf-src="data:image/png;base64, {{doc.qr}}"/>
                         </div>
                     </div>
