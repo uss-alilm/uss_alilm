@@ -105,3 +105,9 @@ class AccountMove(models.Model):
     def _get_qr_code(self):
         self.ensure_one()
         return self.qr_str or ""
+    def generate_qr_button(self):
+        # لم نعد نحتاج توليد يدوي
+        # لكن نتركها حتى لا يكسر الـ View
+        return True
+    qr = fields.Binary(string="QR Code", help="(Deprecated) Kept for compatibility with views.")
+
