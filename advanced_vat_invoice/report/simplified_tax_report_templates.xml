@@ -29,7 +29,11 @@
                         </div>
 
                         <div style="float:right !important;">
-                            <img t-attf-src="data:image/png;base64, {{doc.qr}}"/>
+                           <!-- <img t-attf-src="data:image/png;base64, {{doc.qr}}"/> -->
+							<t t-if="doc.company_id.country_id.code == 'SA' and doc.x_zatca_qr_str">
+							  <img t-att-src="'/report/barcode/?type=QR&amp;value=%s&amp;width=120&amp;height=120' % doc.x_zatca_qr_str"/>
+							</t>
+
                         </div>
                     </div>
                     <br/>
